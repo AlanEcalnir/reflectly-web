@@ -51,6 +51,46 @@ const ChartIcon = ({ size = 20, color = "currentColor" }) => (
   </svg>
 );
 
+const UsersIcon = ({ size = 20, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="9" cy="7" r="4" stroke={color} strokeWidth="1.8" fill={color} fillOpacity="0.12" />
+    <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"
+      stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"
+      stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M21 21v-2a4 4 0 0 0-3-3.87"
+      stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
+const UserIcon = ({ size = 20, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="12" cy="8" r="4" stroke={color} strokeWidth="1.8" fill={color} fillOpacity="0.12" />
+    <path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"
+      stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
+const GearIcon = ({ size = 20, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="12" cy="12" r="3" stroke={color} strokeWidth="1.8" fill={color} fillOpacity="0.12" />
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+      stroke={color} strokeWidth="1.8" />
+  </svg>
+);
+
+const KeyIcon = ({ size = 20, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="8" cy="12" r="5" stroke={color} strokeWidth="1.8" fill={color} fillOpacity="0.12" />
+    <path d="M13 12h8M17 10v4" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M21 10v4" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
 const LifebuoyIcon = ({ size = 36, color = "currentColor" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -81,15 +121,19 @@ const faqs = [
     items: [
       {
         q: "How do I create a team?",
-        a: "Go to Home and click '+ Create a Team'. Fill in your team name, description, and pick a color. A unique invite code will be generated automatically that you can share with your teammates."
+        a: "On the Home page, scroll down and tap '+ Create a Team'. Type in your team's name, add a short description, and pick a color for it. Once you're done, a special code will be made for your team — share that code with your teammates so they can join!"
       },
       {
         q: "How do I join a team?",
-        a: "Click '+ Join a Team' on the Home page. Enter the invite code given to you by your team leader and you'll be added instantly."
+        a: "On the Home page, tap '+ Join a Team'. You'll be asked to enter an invite code — ask your team leader to give you their team's code. Type it in and tap 'Join Team'. You'll be added right away!"
       },
       {
         q: "Can I be in multiple teams?",
-        a: "Yes! You can join or create as many teams as you need. Switch between them on the Home page by clicking on any team in the My Teams list."
+        a: "Yes! You can be part of as many teams as you want. On the Home page, you'll see a list of all your teams on the right side — just tap on any of them to switch and view that team."
+      },
+      {
+        q: "What is 'skip for now' on the setup screen?",
+        a: "When you first sign up, the app asks you to create or join a team. If you're not ready yet, you can tap 'skip for now' to go straight to the app. You can always create or join a team later from the Home page."
       },
     ]
   },
@@ -99,19 +143,89 @@ const faqs = [
     items: [
       {
         q: "How do I submit feedback?",
-        a: "Click 'Submit' in the navbar. Select your current mood, type your thoughts, choose which team to submit to, and hit Submit Feedback."
+        a: "Tap 'Submit' at the top of the screen. Pick an emoji that matches how you're feeling, write what's on your mind, choose which team you're sending it to, then tap the 'Submit Feedback' button. That's it!"
       },
       {
         q: "How does the AI sentiment analysis work?",
-        a: "When you submit feedback, our AI reads your message and detects the emotional tone — whether it's positive, negative, or neutral. It also gives a score and summary to help your team understand the overall vibe."
+        a: "When you send your feedback, the app automatically reads your message and figures out if it sounds happy, sad, or somewhere in between. It then shows your team a score and a short summary so they can understand the general mood of everyone."
       },
       {
         q: "What do the mood colors mean?",
-        a: "Green means positive moods (Happy, Excited). Orange means negative moods (Stressed, Anxious, Angry, Tired). Gray means neutral. These colors appear on the Weekly Sentiment chart on your Home page."
+        a: "Green means positive or happy moods like Excited or Happy. Orange means harder moods like Stressed, Angry, or Tired. Gray means neutral — not too happy, not too sad. You'll see these colors in the chart on the Home page."
       },
       {
         q: "Can I submit feedback anonymously?",
-        a: "Yes! Go to Settings and turn on Anonymous Mode. When enabled, your name will be hidden from all feedback you submit and will show as 'Anonymous' to your teammates."
+        a: "Yes! If you don't want your name to show, go to Settings and turn on 'Anonymous Mode'. After that, whenever you submit feedback, it will show 'Anonymous' instead of your name. Nobody will know it was you!"
+      },
+    ]
+  },
+  {
+    category: "Managing Your Team",
+    icon: UsersIcon,
+    items: [
+      {
+        q: "How do I find my team's invite code?",
+        a: "Go to the Home page and find your team on the right side. Click the 'Info' button next to your team name. A popup will appear showing your team's invite code at the top — you can tap 'Copy' to copy it and share it with your teammates."
+      },
+      {
+        q: "How do I see who's in my team?",
+        a: "On the Home page, tap the 'Info' button beside your team. Scroll down in the popup and you'll see a list of all the members in your team, along with when they joined and if they're the team leader."
+      },
+      {
+        q: "How do I view a member's profile?",
+        a: "Open the team info by tapping 'Info' next to your team on the Home page. Then tap on any member's name in the list. A small popup will show their profile — their name, student ID, age, and when they joined."
+      },
+      {
+        q: "What is 'Leave & Transfer Leadership'?",
+        a: "If you created the team, you are the leader. To leave the team, you first need to pass the leader role to someone else — that's what 'Leave & Transfer Leadership' does. If you're just a regular member, you'll see a simple 'Leave Team' button instead."
+      },
+      {
+        q: "Can I change my team's name or color?",
+        a: "Currently, the team name, description, and color are set when the team is first created and cannot be changed afterward. Make sure to choose carefully when creating your team!"
+      },
+    ]
+  },
+  {
+    category: "Your Profile",
+    icon: UserIcon,
+    items: [
+      {
+        q: "What is the Avg Sentiment score on my profile?",
+        a: "The Avg Sentiment is a number that shows your overall mood based on all the feedback you've ever submitted. A positive number means your feedback has generally been happy or positive. A negative number means it's been more on the stressed or sad side. Zero means you're right in the middle!"
+      },
+      {
+        q: "What is My Feedback History?",
+        a: "It's a list of all the feedback you've ever submitted, shown from newest to oldest. You can see what mood you picked, what you wrote, which team you sent it to, and the sentiment score the app gave it."
+      },
+      {
+        q: "What does Most Common Mood mean?",
+        a: "This shows the emoji mood you've picked the most across all your feedback submissions. For example, if you usually pick 'Happy' when submitting, that emoji will show up here as your most common mood."
+      },
+      {
+        q: "Can I edit or delete my feedback after submitting?",
+        a: "No, once you submit feedback you cannot edit or delete it. Make sure you're happy with what you wrote before tapping Submit Feedback!"
+      },
+    ]
+  },
+  {
+    category: "App & Settings",
+    icon: GearIcon,
+    items: [
+      {
+        q: "How do I turn on Dark Mode?",
+        a: "Go to Settings and look for 'Dark Mode' under the Preferences section. Just tap the toggle switch to turn it on. The whole app will switch to a darker look right away. You can turn it back off the same way."
+      },
+      {
+        q: "What are notifications for?",
+        a: "When notifications are turned on, the app can send you updates about what's happening in your team — like when new feedback is submitted. You can turn this on or off anytime in Settings under Preferences."
+      },
+      {
+        q: "How do I sign out?",
+        a: "Go to Settings and scroll down to the Account section. Tap the 'Sign Out' button. You'll be logged out and taken back to the login screen. Your account and data are saved — you can log back in anytime."
+      },
+      {
+        q: "What happens if I delete my account?",
+        a: "Deleting your account will permanently remove everything — your profile, all your submitted feedback, and your team memberships. This cannot be undone! If you just want to take a break, signing out is the safer option."
       },
     ]
   },
@@ -121,15 +235,37 @@ const faqs = [
     items: [
       {
         q: "What does anonymous mode do exactly?",
-        a: "When anonymous mode is ON, your name is hidden from all feedback entries. Your teammates will see 'Anonymous' instead of your name. You can toggle this anytime in Settings."
+        a: "When anonymous mode is turned ON, your name is hidden from everything you submit. Your teammates will only see 'Anonymous' — not your name. You can turn it on or off anytime in Settings."
+      },
+      {
+        q: "Is my feedback private?",
+        a: "Your feedback is shared with everyone in the same team. All team members can see what was submitted in the Team Feedback Feed on the Home page. If you want to hide your name, turn on Anonymous Mode in Settings."
       },
       {
         q: "How do I change my password?",
-        a: "Go to Settings → Account → Change Password. Click 'Send Link' and a password reset email will be sent to your registered email address."
+        a: "Go to Settings, then look for 'Change Password' under the Account section. Tap 'Send Link' and we'll send an email to your registered email address with a link to set a new password. Just check your inbox!"
       },
       {
         q: "How do I leave a team?",
-        a: "Click the 'Info' button next to your active team on the Home page. Scroll down and click 'Leave Team'. If you are the team leader, you will need to transfer leadership to another member first."
+        a: "On the Home page, find the team you want to leave and tap the 'Info' button beside it. Scroll down and tap 'Leave Team'. Note: if you were the one who created the team, you'll need to pass the leader role to someone else before you can leave."
+      },
+    ]
+  },
+  {
+    category: "Login & Access",
+    icon: KeyIcon,
+    items: [
+      {
+        q: "What do I do if I forgot my password?",
+        a: "On the login screen, tap 'Forgot Password'. Enter your email address and we'll send you a link to reset your password. Check your inbox (and your spam folder just in case!) and follow the link to create a new password."
+      },
+      {
+        q: "What do I do if I can't log in?",
+        a: "First, make sure your email and password are typed correctly — check for extra spaces or capital letters. If you still can't get in, tap 'Forgot Password' on the login screen to reset it. If the problem keeps happening, reach out to the developer for help."
+      },
+      {
+        q: "Can I use the app on any device?",
+        a: "Yes! Reflectly works on any device with a web browser — your phone, tablet, or computer. Since it's a web app, you don't need to download anything. Just open it in your browser and log in."
       },
     ]
   },
@@ -139,11 +275,19 @@ const faqs = [
     items: [
       {
         q: "What is the Weekly Sentiment chart?",
-        a: "The chart on your Home page shows each day of the current week. Green bars mean more positive feedback that day, orange means more negative, and gray means neutral. Empty days show a flat bar."
+        a: "It's the bar chart you see on the Home page. It shows how your team has been feeling every day this week. Tall green bars mean a lot of positive feedback that day, orange means more negative, and gray means neutral. If nobody submitted that day, the bar will just be flat."
+      },
+      {
+        q: "What does the sentiment score number mean?",
+        a: "The score is a number between -1 and +1. A score close to +1 means the feedback was very positive and happy. A score close to -1 means it was very negative or sad. A score near 0 means it was neutral — not strongly positive or negative."
       },
       {
         q: "How far back does the feedback feed go?",
-        a: "The Team Feedback Feed shows the 30 most recent feedback entries for the selected team, grouped by date."
+        a: "The feedback feed on the Home page shows the 30 most recent messages from your team, sorted by date. Older messages beyond that are not shown, so it stays clean and easy to read."
+      },
+      {
+        q: "Why does my chart look empty?",
+        a: "The chart only shows data for the current week. If your team hasn't submitted any feedback yet this week, all the bars will be flat. Once people start submitting, the bars will fill up and show the mood for each day."
       },
     ]
   },
@@ -183,8 +327,8 @@ export default function Help() {
                     <div key={key} style={{
                       borderRadius: 8,
                       border: "1px solid",
-                      borderColor: isOpen ? "#6c5ce733" : "#f0f0f0",
-                      background: isOpen ? "#6c5ce708" : "white",
+                      borderColor: isOpen ? "#6c5ce733" : "var(--border)",
+                      background: isOpen ? "rgba(108,92,231,0.15)" : "var(--input-bg)",
                       overflow: "hidden",
                       transition: "all 0.2s ease"
                     }}>
@@ -194,7 +338,7 @@ export default function Help() {
                         display: "flex", justifyContent: "space-between", alignItems: "center",
                         gap: 12
                       }}>
-                        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1e2a3a" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 600, color: "var(--text-main)" }}>
                           {item.q}
                         </span>
                         <span style={{
@@ -207,7 +351,7 @@ export default function Help() {
                       {isOpen && (
                         <div style={{
                           padding: "0 16px 14px",
-                          fontSize: "13px", color: "#555", lineHeight: 1.7
+                          fontSize: "13px", color: "var(--text-main)", lineHeight: 1.7, opacity: 0.8
                         }}>
                           {item.a}
                         </div>
@@ -226,17 +370,36 @@ export default function Help() {
             <LifebuoyIcon size={36} color="#6c5ce7" />
           </div>
           <h3 style={{ margin: "0 0 6px", fontSize: "1rem" }}>Still need help?</h3>
-          <p style={{ fontSize: "13px", color: "#888", margin: "0 0 16px" }}>
-            Contact your class representative or system administrator for further support.
+          <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: "0 0 16px" }}>
+            Have a question or found a bug? Feel free to reach out to the developer directly.
           </p>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            background: "#f8f8fc", borderRadius: 8, padding: "10px 20px",
-            fontSize: "13px", color: "#6c5ce7", fontWeight: 600
-          }}>
-            <EnvelopeIcon size={16} color="#6c5ce7" />
-            Target Users: GC CCS Students
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(108,92,231,0.12)", borderRadius: 8, padding: "10px 20px",
+              fontSize: "13px", color: "#6c5ce7", fontWeight: 600,
+              border: "1px solid rgba(108,92,231,0.3)"
+            }}>
+              <EnvelopeIcon size={16} color="#6c5ce7" />
+              ecalniralan@gmail.com
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("ecalniralan@gmail.com");
+                alert("Email copied! You can now paste it anywhere.");
+              }}
+              style={{
+                background: "#6c5ce7", color: "white", border: "none",
+                borderRadius: 8, padding: "8px 18px", fontSize: "13px",
+                fontWeight: 600, cursor: "pointer"
+              }}
+            >
+              Copy Email
+            </button>
           </div>
+          <p style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: 10 }}>
+            Developed by Alan Jr. P. Ecalnir
+          </p>
         </div>
 
       </div>

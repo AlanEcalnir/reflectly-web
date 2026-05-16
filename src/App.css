@@ -971,6 +971,9 @@ body {
 }
 .hamburger:hover { background: rgba(255,255,255,0.08); }
 
+/* Hide mobile nav on desktop */
+.mobile-nav-right { display: none; }
+
 .ham-line {
   display: block;
   width: 22px;
@@ -1109,4 +1112,35 @@ body {
 
   /* Prevent tap flash */
   button, a { -webkit-tap-highlight-color: transparent; }
+/* Mobile nav right side wrapper */
+  .mobile-nav-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .navbar > .hamburger {
+    display: none;
+  }
+
+  .mobile-submit-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+
+  .mobile-submit-btn.active {
+    background: rgba(232, 105, 42, 0.2);
+    border-color: var(--orange);
+    color: var(--orange);
+  }
 }
