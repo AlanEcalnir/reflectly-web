@@ -527,7 +527,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
 
   // ─── TEAM DETAIL ─────────────────────────────────────────────────
   const TeamDetail = () => (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden", background: "var(--cream)" }}>
+    <div style={{ display: "flex", flexDirection: "column", background: "var(--cream)" }}>
 
       {/* HEADER */}
       <div style={{
@@ -591,9 +591,16 @@ export default function Home({ user, navigate, navigateToSubmit }) {
 
         {/* WEEKLY SENTIMENT */}
         <div className="card" style={{ flexShrink: 0 }}>
-          <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", marginBottom: 8, color: "var(--text-main)" }}>
-            Weekly Sentiment
-          </h3>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", margin: 0, color: "var(--text-main)" }}>
+    Weekly Sentiment
+  </h3>
+  <div style={{ display: "flex", gap: 12, fontSize: "11px", color: "var(--text-muted)" }}>
+    <span><span style={{ color: "#3dba7e" }}>●</span> Positive</span>
+    <span><span style={{ color: "#e8692a" }}>●</span> Negative</span>
+    <span><span style={{ color: "#7a7f9a" }}>●</span> Neutral</span>
+  </div>
+</div>
           {feedLoading ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p> : (
             <>
               <div style={{ display: "flex", gap: 8, alignItems: "flex-end", height: 120, marginTop: 8 }}>
@@ -614,17 +621,12 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   </div>
                 ))}
               </div>
-              <div style={{ display: "flex", gap: 16, marginTop: 8, fontSize: "11px", color: "var(--text-muted)" }}>
-                <span><span style={{ color: "#3dba7e" }}>●</span> Positive</span>
-                <span><span style={{ color: "#e8692a" }}>●</span> Negative</span>
-                <span><span style={{ color: "#7a7f9a" }}>●</span> Neutral</span>
-              </div>
             </>
           )}
         </div>
 
         {/* FEEDBACK FEED */}
-        <div className="card" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minHeight: 0 }}>
+        <div className="card" style={{ height: "calc(100vh - 380px)", minHeight: 300, display: "flex", flexDirection: "column" }}>
           <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", marginBottom: 12, flexShrink: 0, color: "var(--text-main)" }}>
             Team Feedback Feed
           </h3>
@@ -715,14 +717,15 @@ export default function Home({ user, navigate, navigateToSubmit }) {
       {/* TEAM INFO PANEL MODAL */}
       {showPanel && activeTeam && (
         <div style={{
-          position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)",
-          display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000
-        }}>
+  position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)",
+  display: "flex", alignItems: "flex-start", justifyContent: "center",
+  zIndex: 1000, overflowY: "auto", paddingTop: 80, paddingBottom: 24
+}}>
           <div style={{
-            background: "var(--surface)", borderRadius: 16, width: "92%", maxWidth: 860,
-            padding: 24, display: "flex", flexDirection: "column", gap: 16,
-            maxHeight: isMobile ? "90vh" : "85vh", overflowY: isMobile ? "auto" : "visible"
-          }}>
+  background: "var(--surface)", borderRadius: 16, width: "92%", maxWidth: 860,
+  padding: 24, display: "flex", flexDirection: "column", gap: 16,
+  maxHeight: "90vh", overflowY: "auto"
+}}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ position: "relative", flexShrink: 0 }}>
@@ -855,11 +858,11 @@ export default function Home({ user, navigate, navigateToSubmit }) {
               <div style={{ width: isMobile ? "100%" : 1, height: isMobile ? 1 : "auto", background: "var(--border)", flexShrink: 0 }} />
 
               {/* RIGHT — members */}
-              <div style={{ width: isMobile ? "100%" : 260, flexShrink: 0, display: "flex", flexDirection: "column", gap: 10, maxHeight: isMobile ? 220 : "none" }}>
+              <div style={{ width: isMobile ? "100%" : 260, flexShrink: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                 <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                   👥 Team Members <span style={{ fontWeight: 400 }}>(click to view)</span>
                 </div>
-                <div style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: 8, paddingRight: 4 }}>
+                <div style={{ overflowY: "scroll", flex: 1, display: "flex", flexDirection: "column", gap: 24, paddingRight: 4, maxHeight: "calc(100vh - 420px)" }}>
                   {members.length === 0 ? (
                     <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>No members found.</p>
                   ) : members.map((m) => {
@@ -970,11 +973,11 @@ export default function Home({ user, navigate, navigateToSubmit }) {
           {mobileView === "list" ? <TeamList /> : <TeamDetail />}
         </div>
       ) : (
-        <div style={{ position: "fixed", inset: 0, top: 64, display: "flex", overflow: "hidden", background: "var(--cream)" }}>
+        <div style={{ position: "fixed", inset: 0, top: 64, display: "flex", background: "var(--cream)", overflow: "auto" }}>
           <div style={{ width: 280, flexShrink: 0, borderRight: "1px solid rgba(122,127,154,0.15)", overflowY: "auto" }}>
             <TeamList />
           </div>
-          <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
             {activeTeam
               ? <TeamDetail />
               : <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--text-muted)" }}>
