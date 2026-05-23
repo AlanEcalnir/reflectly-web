@@ -177,6 +177,7 @@ const IconWarning = () => (
 export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
   const [anonymous, setAnonymous]             = useState(false);
   const [notifications, setNotifications]     = useState(true);
+  const [settingsLoaded, setSettingsLoaded]   = useState(false);
   const [saving, setSaving]                   = useState("");
   const [saved, setSaved]                     = useState("");
   const [resetSent, setResetSent]             = useState(false);
@@ -192,6 +193,7 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
       .eq("id", user.id)
       .single();
     if (data) setAnonymous(data.anonymous_mode);
+    setSettingsLoaded(true);
   }, [user.id]);
 
   useEffect(() => { fetchSettings(); }, [fetchSettings]);
@@ -245,7 +247,6 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
     }
   };
 
-  // Shared row wrapper style
   const rowStyle = {
     display: "flex", alignItems: "center",
     justifyContent: "space-between", padding: "14px 0",
@@ -284,24 +285,32 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
             Preferences
           </div>
 
-          <ToggleRow
-            icon={<IconMask />} field="anonymous" checked={anonymous}
-            label="Anonymous mode"
-            desc="Hide your name from all feedback"
-            saving={saving} saved={saved} onToggle={handleToggle}
-          />
-          <ToggleRow
-            icon={<IconBell />} field="notifications" checked={notifications}
-            label="Notifications"
-            desc="Receive updates about your team activity"
-            saving={saving} saved={saved} onToggle={handleToggle}
-          />
-          <ToggleRow
-            icon={<IconMoon />} field="darkMode" checked={darkMode}
-            label="Dark Mode"
-            desc="Switch to a darker color scheme"
-            saving={saving} saved={saved} onToggle={handleToggle}
-          />
+          {settingsLoaded ? (
+            <>
+              <ToggleRow
+                icon={<IconMask />} field="anonymous" checked={anonymous}
+                label="Anonymous mode"
+                desc="Hide your name from all feedback"
+                saving={saving} saved={saved} onToggle={handleToggle}
+              />
+              <ToggleRow
+                icon={<IconBell />} field="notifications" checked={notifications}
+                label="Notifications"
+                desc="Receive updates about your team activity"
+                saving={saving} saved={saved} onToggle={handleToggle}
+              />
+              <ToggleRow
+                icon={<IconMoon />} field="darkMode" checked={darkMode}
+                label="Dark Mode"
+                desc="Switch to a darker color scheme"
+                saving={saving} saved={saved} onToggle={handleToggle}
+              />
+            </>
+          ) : (
+            <div style={{ padding: "14px 0", color: "var(--text-muted)", fontSize: "13px" }}>
+              Loading preferences...
+            </div>
+          )}
         </div>
 
         {/* ── ACCOUNT ── */}

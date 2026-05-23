@@ -29,8 +29,8 @@ export default function Login({ onLogin, onGoRegister }) {
       <div className="auth-layout">
         <div className="auth-brand">
           <div className="brand-logo">
-            <div className="logo-icon">✏️</div>
-            <span>Reflectly</span>
+          <div className="logo-icon">✏️</div>
+          <span style={{ color: "white" }}>Reflectly</span>
           </div>
           <h1>How is your team doing today?</h1>
           <p>Track team sentiment, share feedback, and build a healthier team culture — all in one place.</p>

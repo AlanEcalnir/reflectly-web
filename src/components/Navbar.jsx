@@ -34,7 +34,7 @@ const Icons = {
   ),
 };
 
-export default function Navbar({ active, navigate }) {
+export default function Navbar({ active, navigate, hideSubmit }) {
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -85,14 +85,7 @@ export default function Navbar({ active, navigate }) {
 
         {/* MOBILE RIGHT SIDE — Submit button + Hamburger */}
         <div className="mobile-nav-right">
-          {/* QUICK SUBMIT BUTTON — mobile only */}
-          <button
-            className={`mobile-submit-btn ${active === "submit" ? "active" : ""}`}
-            onClick={() => handleNav("submit")}
-            aria-label="Submit feedback"
-          >
-            ✍️ Submit
-          </button>
+
 
           {/* HAMBURGER */}
           <button
@@ -116,7 +109,7 @@ export default function Navbar({ active, navigate }) {
       <aside className={`side-drawer ${open ? "drawer-open" : ""}`}>
         <div className="drawer-header">
           <div className="nav-logo" style={{ color: "white" }} onClick={() => handleNav("home")}>
-            <div className="logo-icon">✏️</div>
+            <div className="logo-icon"></div>
             Reflectly
           </div>
         </div>

@@ -15,9 +15,10 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 
 export default function App() {
-  const [page, setPage]       = useState("login");
-  const [user, setUser]       = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage]             = useState("login");
+  const [user, setUser]             = useState(null);
+  const [loading, setLoading]       = useState(true);
+  const [submitTeamId, setSubmitTeamId] = useState(null);
 
   // ── Dark Mode ─────────────────────────────────────────────────────────────
   const [darkMode, setDarkMode] = useState(
@@ -173,10 +174,16 @@ export default function App() {
   // ── Authenticated app shell ───────────────────────────────────────────────
   return (
     <div className="app-shell">
-      <Navbar active={page} navigate={setPage} />
+      <Navbar active={page} navigate={setPage} hideSubmit={page === "home"} />
       <main className="page-content">
-        {page === "home"     && <Home user={user} navigate={setPage} />}
-        {page === "submit"   && <Submit user={user} />}
+        {page === "home" && (
+          <Home
+            user={user}
+            navigate={setPage}
+            navigateToSubmit={(teamId) => { setSubmitTeamId(teamId); setPage("submit"); }}
+          />
+        )}
+        {page === "submit"   && <Submit user={user} defaultTeamId={submitTeamId} />}
         {page === "profile"  && <Profile user={user} />}
         {page === "settings" && (
           <Settings
