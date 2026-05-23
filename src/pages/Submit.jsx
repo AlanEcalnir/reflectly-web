@@ -11,7 +11,7 @@ const MOODS = [
   { emoji: "😠", value: "angry",    label: "Angry"    },
 ];
 
-export default function Submit({ user, defaultTeamId }) {
+export default function Submit({ user, defaultTeamId, navigate }) {
   const [teams, setTeams]         = useState([]);
   const [teamId, setTeamId]       = useState("");
   const [mood, setMood]           = useState("");
@@ -313,7 +313,7 @@ export default function Submit({ user, defaultTeamId }) {
         <div className="page-header">
           <h2>Submit Feedback</h2>
         </div>
-        <div className="card" style={{ maxWidth: 1000, textAlign: "center", padding: "40px 32px" }}>
+        <div className="card" style={{ maxWidth: 600, margin: "0 auto", textAlign: "center", padding: "40px 32px" }}>
           <div style={{ fontSize: "3rem", marginBottom: 12 }}>✅</div>
           <h3 style={{ marginBottom: 4 }}>Feedback submitted!</h3>
           <p style={{ color: "var(--text-muted)", marginBottom: 24 }}>
@@ -351,15 +351,20 @@ export default function Submit({ user, defaultTeamId }) {
               </div>
             )}
           </div>
-          <button className="btn btn-outline" onClick={() => {
-            setSubmitted(false);
-            setMood("");
-            setThoughts("");
-            setAiResult(null);
-            setHateWarning(false);
-          }}>
-            Submit Another
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+  <button className="btn btn-primary" onClick={() => navigate("home")}>
+    ← Go to Team
+  </button>
+  <button className="btn btn-outline" onClick={() => {
+    setSubmitted(false);
+    setMood("");
+    setThoughts("");
+    setAiResult(null);
+    setHateWarning(false);
+  }}>
+    Submit Another
+  </button>
+</div>
         </div>
       </>
     );
@@ -405,9 +410,15 @@ export default function Submit({ user, defaultTeamId }) {
       `}</style>
 
       <div className="page-header">
-        <h2>Submit Feedback</h2>
-        <p>How are you feeling about the team right now?</p>
-      </div>
+  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+    <button onClick={() => navigate("home")} style={{
+      background: "none", border: "none", cursor: "pointer",
+      fontSize: "20px", color: "var(--text-main)", padding: 0, lineHeight: 1
+    }}>‹</button>
+    <h2 style={{ margin: 0 }}>Submit Feedback</h2>
+  </div>
+  <p>How are you feeling about the team right now?</p>
+</div>
 
       <div className="card" style={{ width: "100%" }}>
 

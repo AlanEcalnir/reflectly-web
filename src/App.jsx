@@ -183,7 +183,7 @@ export default function App() {
             navigateToSubmit={(teamId) => { setSubmitTeamId(teamId); setPage("submit"); }}
           />
         )}
-        {page === "submit"   && <Submit user={user} defaultTeamId={submitTeamId} />}
+        {page === "submit"   && <Submit user={user} defaultTeamId={submitTeamId} navigate={setPage} />}
         {page === "profile"  && <Profile user={user} />}
         {page === "settings" && (
           <Settings
