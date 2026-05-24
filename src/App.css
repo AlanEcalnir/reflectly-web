@@ -30,7 +30,6 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  /* surface used by Settings cards / modals */
   --surface: #ffffff;
   --card-bg: #ffffff;
 }
@@ -52,7 +51,6 @@
   --shadow-xl: 0 20px 60px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.35);
   --surface: #1a1d27;
   --card-bg: #1a1d27;
-  /* Keep brand colors — they look great on dark too */
   --navy: #7d8aff;
   --navy-deep: #6a78f0;
   --navy-mid: #252848;
@@ -96,6 +94,34 @@ body {
   to   { opacity: 1; }
 }
 
+/* ─── Orb float keyframes ─── */
+@keyframes orbFloat1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,20px) scale(0.95); }
+}
+@keyframes orbFloat2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(-35px,30px) scale(1.05); }
+  66%      { transform: translate(28px,-22px) scale(0.97); }
+}
+@keyframes orbFloat3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(20px,35px) scale(1.1); }
+}
+@keyframes orbFloat4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%      { transform: translate(-20px,-30px) scale(1.06); }
+  80%      { transform: translate(25px,15px) scale(0.94); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
 /* ─── App shell ─── */
 .app-shell {
   display: flex;
@@ -132,6 +158,7 @@ body {
   box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(13,15,30,0.28);
   width: 100%;
   transition: background 0.3s ease;
+  overflow: hidden;
 }
 
 [data-theme="dark"] .navbar {
@@ -152,6 +179,8 @@ body {
   color: #ffffff;
   cursor: pointer;
   transition: var(--transition);
+  position: relative;
+  z-index: 1;
 }
 .navbar .nav-logo:hover { opacity: 0.85; }
 
@@ -169,7 +198,12 @@ body {
   transform: rotate(-4deg);
 }
 
-.nav-links { display: flex; gap: 2px; }
+.nav-links {
+  display: flex;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
 
 .nav-link {
   background: none;
@@ -185,14 +219,35 @@ body {
   letter-spacing: 0.01em;
   position: relative;
 }
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--orange);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+.nav-link:hover::before { width: 60%; }
+
 .nav-link:hover {
   color: rgba(255,255,255,0.9);
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
 .nav-link.active {
   color: white;
   background: rgba(255,255,255,0.12);
   font-weight: 600;
+}
+
+@keyframes navDotPulse {
+  0%,100% { opacity:1; width:16px; }
+  50%      { opacity:0.7; width:22px; }
 }
 .nav-link.active::after {
   content: '';
@@ -202,6 +257,7 @@ body {
   width: 16px; height: 2px;
   background: var(--orange);
   border-radius: 99px;
+  animation: navDotPulse 2.5s ease-in-out infinite;
 }
 
 /* ─── Auth layout ─── */
@@ -212,8 +268,38 @@ body {
   width: 100%;
 }
 
+/* Dark mode: unified background so the seam disappears */
+[data-theme="dark"] .auth-layout {
+  display: block;
+  background: #0f1117;
+  position: relative;
+}
+
+[data-theme="dark"] .auth-brand {
+  display: none;
+}
+
+[data-theme="dark"] .auth-form-side {
+  background: transparent;
+  background-image:
+    radial-gradient(circle 300px at 80% 15%,  rgba(232,105,42,0.25) 0%, transparent 70%),
+    radial-gradient(circle 250px at 15% 75%,  rgba(108,92,231,0.25) 0%, transparent 70%),
+    radial-gradient(circle 280px at 90% 80%,  rgba(108,92,231,0.20) 0%, transparent 70%),
+    radial-gradient(circle 200px at 10% 15%,  rgba(232,105,42,0.18) 0%, transparent 70%),
+    radial-gradient(circle 220px at 50% 50%,  rgba(61,186,126,0.15) 0%, transparent 70%);
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ─── Left panel ─── */
 .auth-brand {
   background: var(--navy-mid);
+  background-image:
+    radial-gradient(circle 200px at 80% 15%,  rgba(232,105,42,0.30) 0%, transparent 70%),
+    radial-gradient(circle 160px at 15% 75%,  rgba(108,92,231,0.28) 0%, transparent 70%),
+    radial-gradient(circle 220px at 60% 85%,  rgba(61,186,126,0.20) 0%, transparent 70%),
+    radial-gradient(circle 130px at 30% 20%,  rgba(232,105,42,0.18) 0%, transparent 70%),
+    radial-gradient(circle 180px at 90% 60%,  rgba(108,92,231,0.22) 0%, transparent 70%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -223,25 +309,41 @@ body {
   overflow: hidden;
 }
 
-[data-theme="dark"] .auth-brand { background: #12141e; }
+[data-theme="dark"] .auth-brand {
+  background: transparent;
+  background-image:
+    radial-gradient(circle 200px at 80% 15%,  rgba(232,105,42,0.30) 0%, transparent 70%),
+    radial-gradient(circle 160px at 15% 75%,  rgba(108,92,231,0.28) 0%, transparent 70%),
+    radial-gradient(circle 220px at 60% 85%,  rgba(61,186,126,0.20) 0%, transparent 70%),
+    radial-gradient(circle 130px at 30% 20%,  rgba(232,105,42,0.18) 0%, transparent 70%),
+    radial-gradient(circle 180px at 90% 60%,  rgba(108,92,231,0.22) 0%, transparent 70%);
+  box-shadow: none;
+}
 
+/* Animated orb 1 — top right */
 .auth-brand::before {
   content: '';
   position: absolute;
-  width: 400px; height: 400px;
+  width: 300px; height: 300px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.04);
-  top: -100px; right: -100px;
+  background: rgba(232,105,42,0.18);
+  top: -80px; right: -60px;
   pointer-events: none;
+  animation: orbFloat1 11s ease-in-out infinite;
+  filter: blur(2px);
 }
+
+/* Animated orb 2 — bottom left */
 .auth-brand::after {
   content: '';
   position: absolute;
-  width: 280px; height: 280px;
+  width: 240px; height: 240px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(108,92,231,0.20);
   bottom: -60px; left: -60px;
   pointer-events: none;
+  animation: orbFloat2 14s ease-in-out infinite;
+  filter: blur(2px);
 }
 
 .brand-logo {
@@ -282,6 +384,7 @@ body {
   max-width: 320px;
 }
 
+/* ─── Right panel ─── */
 .auth-form-side {
   display: flex;
   align-items: center;
@@ -289,6 +392,41 @@ body {
   background: var(--cream);
   padding: clamp(40px, 8vw, 72px) clamp(24px, 5vw, 56px);
   transition: background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .auth-form-side {
+  background: transparent;
+  background-image:
+    radial-gradient(circle 260px at 90% 10%,  rgba(108,92,231,0.22) 0%, transparent 70%),
+    radial-gradient(circle 200px at 10% 80%,  rgba(232,105,42,0.18) 0%, transparent 70%),
+    radial-gradient(circle 180px at 75% 90%,  rgba(61,186,126,0.14) 0%, transparent 70%),
+    radial-gradient(circle 150px at 20% 15%,  rgba(108,92,231,0.14) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .auth-form-side::before {
+  content: '';
+  position: absolute;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(108,92,231,0.16);
+  top: -80px; right: -60px;
+  pointer-events: none;
+  animation: orbFloat2 13s ease-in-out infinite;
+  filter: blur(3px);
+}
+
+[data-theme="dark"] .auth-form-side::after {
+  content: '';
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: rgba(232,105,42,0.14);
+  bottom: -60px; left: -50px;
+  pointer-events: none;
+  animation: orbFloat1 10s ease-in-out infinite 2s;
+  filter: blur(3px);
 }
 
 .auth-form-box {
@@ -1012,6 +1150,7 @@ body {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: -8px 0 32px rgba(13,15,30,0.35);
   padding-top: env(safe-area-inset-top);
+  overflow: hidden;
 }
 [data-theme="dark"] .side-drawer { background: #12141e; }
 .side-drawer.drawer-open { transform: translateX(0); }
@@ -1023,6 +1162,8 @@ body {
   height: var(--nav-h);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .drawer-links {
@@ -1031,6 +1172,8 @@ body {
   padding: 12px 10px;
   gap: 2px;
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .drawer-link {
@@ -1050,17 +1193,32 @@ body {
   transition: var(--transition);
   text-align: left;
   -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
 }
+
+.drawer-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px;
+  width: 0; height: 2px;
+  background: var(--orange);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+.drawer-link:hover::before { width: calc(100% - 28px); }
+
 .drawer-link:hover {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.1);
   color: rgba(255,255,255,0.9);
+  transform: translateX(4px);
 }
+
 .drawer-link.active {
   background: rgba(255,255,255,0.12);
   color: white;
   font-weight: 600;
 }
-.drawer-link.active::before {
+.drawer-link.active::after {
   content: '';
   position: absolute;
   left: 0;
@@ -1079,40 +1237,31 @@ body {
 
 /* ─── Mobile only ─── */
 @media (max-width: 768px) {
-  /* Show hamburger, hide desktop nav links */
   .hamburger { display: flex; }
   .nav-links  { display: none; }
 
-  /* Adjust page padding */
   .page-content {
     padding: calc(var(--nav-h) + 16px) 16px 40px;
     padding-bottom: calc(40px + env(safe-area-inset-bottom));
   }
 
-  /* Safe areas */
   .navbar {
     padding-left:  max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
   }
 
-  /* Full-width cards */
   .card { border-radius: var(--radius); padding: 20px; }
-
-  /* Home grid stacks */
   .home-grid { grid-template-columns: 1fr; }
 
-  /* Auth: single column */
   .auth-layout { grid-template-columns: 1fr; }
   .auth-brand  { display: none; }
   .auth-form-side { padding: 40px 24px; }
   .auth-form-box  { max-width: 100%; }
 
-  /* Setup pages */
   .setup-layout { align-items: flex-start; padding-top: 40px; }
 
-  /* Prevent tap flash */
   button, a { -webkit-tap-highlight-color: transparent; }
-/* Mobile nav right side wrapper */
+
   .mobile-nav-right {
     display: flex;
     flex-direction: row;

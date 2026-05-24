@@ -49,8 +49,14 @@ export default function Home({ user, navigate, navigateToSubmit }) {
   const teamPhotoInputRef = useRef(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  const [screenH, setScreenH]   = useState(window.innerHeight);
+  const [screenW, setScreenW]   = useState(window.innerWidth);
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 640);
+    const onResize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setScreenH(window.innerHeight);
+      setScreenW(window.innerWidth);
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -403,6 +409,22 @@ export default function Home({ user, navigate, navigateToSubmit }) {
   const isCreator = activeTeam?.created_by === user.id;
   const otherMembers = members.filter((m) => m.user_id !== user.id);
 
+  // ── Responsive sizing derived from real screen dimensions ──
+  // Only applied on mobile; desktop layout is unchanged
+  const maxBarHeight    = screenH * 0.09;           // ~60px on SE (667px), ~84px on Pro Max (932px)
+  const chartContainerH = maxBarHeight + 44;         // bars + day label + score label + gaps
+  const bodyPadding     = screenH < 700 ? 10 : 16;
+  const cardGap         = screenH < 700 ? 8 : 12;
+  // detailHeaderH: the team detail top bar (back btn + avatar + name + buttons + border)
+  const detailHeaderH   = screenH < 700 ? 58 : 68;
+  // sentimentCardH: card padding top+bottom + title row + marginTop + chartContainer
+  const sentimentCardPad = screenH < 700 ? 10 : 12;
+  const sentimentCardH  = sentimentCardPad * 2 + 28 + 14 + chartContainerH;
+  // feedCardH: whatever is left after everything else
+  const feedCardH       = screenH - 64 - detailHeaderH - bodyPadding * 2 - cardGap - sentimentCardH;
+  const dayFontSize     = screenW < 390 ? "9px" : "10px";
+  const scoreFontSize   = screenW < 390 ? "8px" : "9px";
+
   if (loading) return <div style={{ padding: "2rem" }}>Loading...</div>;
 
   // ─── UNREAD BADGE ────────────────────────────────────────────────
@@ -532,7 +554,8 @@ export default function Home({ user, navigate, navigateToSubmit }) {
       {/* HEADER */}
       <div style={{
         display: "flex", alignItems: "center", gap: 12, flexShrink: 0,
-        padding: "14px 16px", borderBottom: "1px solid rgba(122,127,154,0.15)",
+        padding: isMobile ? `${(detailHeaderH - 36) / 2}px 16px` : "14px 16px",
+        borderBottom: "1px solid rgba(122,127,154,0.15)",
         background: "var(--cream)"
       }}>
         {isMobile && (
@@ -549,7 +572,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {activeTeam?.name}
           </div>
-          {activeTeam?.description && (
+          {!isMobile && activeTeam?.description && (
             <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>{activeTeam.description}</div>
           )}
         </div>
@@ -558,7 +581,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         <button
           onClick={() => navigateToSubmit(activeTeam.id)}
           style={{
-            fontSize: "13px", padding: "8px 14px", borderRadius: 8,
+            fontSize: screenW < 390 ? "12px" : "13px",
+            padding: screenW < 390 ? "6px 10px" : "8px 14px",
+            borderRadius: 8,
             display: "flex", alignItems: "center", gap: 5,
             border: "none", background: "#f39c12",
             cursor: "pointer", color: "white",
@@ -571,7 +596,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         {/* INFO BUTTON */}
         <button onClick={() => { fetchTeamDetails(activeTeam); setShowPanel(true); }}
           style={{
-            fontSize: "16px", padding: "8px 16px", borderRadius: 8,
+            fontSize: "16px",
+            padding: screenW < 390 ? "6px 10px" : "8px 16px",
+            borderRadius: 8,
             display: "flex", alignItems: "center",
             border: "1px solid rgba(122,127,154,0.35)", background: "var(--surface)",
             cursor: "pointer", color: "var(--text-main)", whiteSpace: "nowrap",
@@ -587,33 +614,64 @@ export default function Home({ user, navigate, navigateToSubmit }) {
       </div>
 
       {/* BODY */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, padding: 16, overflow: "hidden" }}>
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        gap: isMobile ? cardGap : 12,
+        padding: isMobile ? bodyPadding : 16,
+        overflow: "hidden",
+      }}>
 
         {/* WEEKLY SENTIMENT */}
-        <div className="card" style={{ flexShrink: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", margin: 0, color: "var(--text-main)" }}>
-    Weekly Sentiment
-  </h3>
-  <div style={{ display: "flex", gap: 12, fontSize: "11px", color: "var(--text-muted)" }}>
-    <span><span style={{ color: "#3dba7e" }}>●</span> Positive</span>
-    <span><span style={{ color: "#e8692a" }}>●</span> Negative</span>
-    <span><span style={{ color: "#7a7f9a" }}>●</span> Neutral</span>
-  </div>
-</div>
+        <div className="card" style={{
+          flexShrink: 0,
+          padding: isMobile ? sentimentCardPad : undefined,
+        }}>
+          <div style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "flex-start" : "center",
+            justifyContent: "space-between",
+            marginBottom: 8,
+            gap: isMobile ? 4 : 0,
+          }}>
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: isMobile && screenH < 700 ? "0.95rem" : "1.05rem", margin: 0, color: "var(--text-main)" }}>
+              Weekly Sentiment
+            </h3>
+            <div style={{ display: "flex", gap: isMobile ? 10 : 12, fontSize: "11px", color: "var(--text-muted)" }}>
+              {[
+                { label: "Positive", color: "#3dba7e" },
+                { label: "Negative", color: "#e8692a" },
+                { label: "Neutral",  color: "#7a7f9a" },
+              ].map(({ label, color }) => (
+                <span key={label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                  <span style={{
+                    display: "inline-block", width: 18, height: 7,
+                    borderRadius: 3, background: color, flexShrink: 0,
+                  }} />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
           {feedLoading ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p> : (
             <>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-end", height: 120, marginTop: 8 }}>
+              <div style={{
+                display: "flex", gap: 8, alignItems: "flex-end",
+                height: isMobile ? chartContainerH : 120,
+                marginTop: 8,
+              }}>
                 {bars.map((b) => (
                   <div key={b.day} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flex: 1 }}>
                     <div style={{
-                      height: b.h === 0 ? 6 : Math.min((b.h / 100) * 90, 90),
+                      height: b.h === 0 ? 6 : Math.min((b.h / 100) * (isMobile ? maxBarHeight : 90), isMobile ? maxBarHeight : 90),
                       background: b.color, width: "100%", borderRadius: 6, minHeight: 6,
                       transition: "height 0.3s ease"
                     }} />
-                    <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>{b.day}</span>
+                    <span style={{ fontSize: isMobile ? dayFontSize : "10px", color: "var(--text-muted)" }}>{b.day}</span>
                     <span style={{
-                      fontSize: "9px", fontWeight: 600,
+                      fontSize: isMobile ? scoreFontSize : "9px", fontWeight: 600,
                       color: b.avgScore === null ? "#a0a3b1" : b.avgScore > 0 ? "#3dba7e" : b.avgScore < 0 ? "#e8692a" : "#7a7f9a"
                     }}>
                       {b.avgScore === null ? "—" : (b.avgScore > 0 ? "+" : "") + b.avgScore.toFixed(2)}
@@ -626,8 +684,14 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         </div>
 
         {/* FEEDBACK FEED */}
-        <div className="card" style={{ height: "calc(100vh - 380px)", minHeight: 300, display: "flex", flexDirection: "column" }}>
-          <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", marginBottom: 12, flexShrink: 0, color: "var(--text-main)" }}>
+        <div className="card" style={{
+          height: isMobile ? feedCardH : "calc(100vh - 380px)",
+          minHeight: isMobile ? 150 : 300,
+          display: "flex",
+          flexDirection: "column",
+          padding: isMobile ? sentimentCardPad : undefined,
+        }}>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: isMobile && screenH < 700 ? "0.95rem" : "1.05rem", marginBottom: isMobile ? 8 : 12, flexShrink: 0, color: "var(--text-main)" }}>
             Team Feedback Feed
           </h3>
           {feedLoading ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p>
@@ -714,20 +778,42 @@ export default function Home({ user, navigate, navigateToSubmit }) {
 
   return (
     <>
-      {/* TEAM INFO PANEL MODAL */}
+      {/* ── TEAM INFO PANEL MODAL ── */}
       {showPanel && activeTeam && (
-        <div style={{
-  position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)",
-  display: "flex", alignItems: "flex-start", justifyContent: "center",
-  zIndex: 1000, overflowY: "auto", paddingTop: 80, paddingBottom: 24
-}}>
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) { setShowPanel(false); setShowTransfer(false); setPhotoError(""); } }}
+          style={{
+            position: "fixed",
+            top: isMobile ? 64 : 0,
+            left: 0, right: 0, bottom: 0,
+            background: "rgba(0,0,0,0.45)",
+            display: "flex",
+            alignItems: isMobile ? "flex-end" : "flex-start",
+            justifyContent: "center",
+            zIndex: 1000,
+            overflowY: isMobile ? "hidden" : "auto",
+            paddingTop: isMobile ? 0 : 80,
+            paddingBottom: isMobile ? 0 : 24,
+          }}
+        >
           <div style={{
-  background: "var(--surface)", borderRadius: 16, width: "92%", maxWidth: 860,
-  padding: 24, display: "flex", flexDirection: "column", gap: 16,
-  maxHeight: "90vh", overflowY: "auto"
-}}>
+            background: "var(--surface)",
+            borderRadius: isMobile ? "16px 16px 0 0" : 16,
+            width: isMobile ? "100%" : "92%",
+            maxWidth: isMobile ? "100%" : 860,
+            padding: isMobile ? "16px 14px 24px" : 24,
+            display: "flex",
+            flexDirection: "column",
+            gap: isMobile ? 10 : 16,
+            maxHeight: isMobile ? "calc(100vh - 64px)" : "90vh",
+            overflowY: "auto",
+            boxSizing: "border-box",
+          }}>
+
+            {/* ── MODAL HEADER ── */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                {/* Team photo */}
                 <div style={{ position: "relative", flexShrink: 0 }}>
                   <div
                     onClick={handleTeamPhotoClick}
@@ -739,7 +825,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                       color: "white", fontWeight: 700, fontSize: "18px",
                       cursor: "pointer", overflow: "hidden",
                       border: "2px solid transparent", transition: "border-color 0.2s",
-                      boxSizing: "border-box",
+                      boxSizing: "border-box", position: "relative",
                     }}
                     onMouseEnter={e => e.currentTarget.style.borderColor = activeTeam.color || "#6c5ce7"}
                     onMouseLeave={e => e.currentTarget.style.borderColor = "transparent"}
@@ -760,10 +846,10 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                     style={{ display: "none" }} onChange={handleTeamPhotoChange} />
                 </div>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-main)" }}>{activeTeam.name}</h3>
+                  <h3 style={{ margin: 0, fontSize: "1rem", color: "var(--text-main)" }}>{activeTeam.name}</h3>
                   {photoUploading && <div style={{ fontSize: "11px", color: "#6c5ce7", marginTop: 2 }}>Uploading...</div>}
                   {photoError && <div style={{ fontSize: "11px", color: "#e8692a", marginTop: 2 }}>{photoError}</div>}
-                  {!photoUploading && !photoError && <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: 2 }}>Click photo to change</div>}
+                  {!photoUploading && !photoError && <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: 2 }}>Tap photo to change</div>}
                   {activeTeam.photo_url && !photoUploading && (
                     <button onClick={handleRemoveTeamPhoto} style={{
                       marginTop: 4, fontSize: "11px", padding: "2px 8px", borderRadius: 6,
@@ -773,51 +859,59 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   )}
                 </div>
               </div>
-              <button onClick={() => { setShowPanel(false); setShowTransfer(false); setPhotoError(""); }}
-                style={{ background: "none", border: "none", fontSize: "1.3rem", cursor: "pointer", color: "var(--text-muted)" }}>✕</button>
+              <button
+                onClick={() => { setShowPanel(false); setShowTransfer(false); setPhotoError(""); }}
+                style={{ background: "none", border: "none", fontSize: "1.3rem", cursor: "pointer", color: "var(--text-muted)", flexShrink: 0 }}
+              >✕</button>
             </div>
 
-            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 16, flex: 1, minHeight: 0 }}>
-              {/* LEFT */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, minWidth: 0 }}>
-                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 }}>
-                  <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "12px 14px" }}>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>🔑 Invite Code</div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                      <span style={{ fontFamily: "monospace", fontSize: "1.1rem", fontWeight: 700, letterSpacing: 3, color: "var(--text-main)" }}>
+            {/* ── MODAL BODY: stacks vertically on mobile, side-by-side on desktop ── */}
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 10 : 16 }}>
+
+              {/* LEFT COLUMN */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
+
+                {/* Invite code + Creator */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                  <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px" }}>🔑 Invite Code</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
+                      <span style={{ fontFamily: "monospace", fontSize: "1rem", fontWeight: 700, letterSpacing: 3, color: "var(--text-main)" }}>
                         {activeTeam.code}
                       </span>
                       <button onClick={handleCopyCode} style={{
-                        fontSize: "11px", padding: "4px 10px", borderRadius: 6,
+                        fontSize: "11px", padding: "3px 8px", borderRadius: 6,
                         border: "1px solid #6c5ce7", background: copied ? "#6c5ce7" : "#6c5ce711",
-                        color: copied ? "white" : "#6c5ce7", cursor: "pointer", fontWeight: 600, whiteSpace: "nowrap"
-                      }}>{copied ? "Copied ✓" : "Copy"}</button>
+                        color: copied ? "white" : "#6c5ce7", cursor: "pointer", fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0
+                      }}>{copied ? "✓" : "Copy"}</button>
                     </div>
                   </div>
-                  <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "12px 14px" }}>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>👑 Creator</div>
-                    <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px" }}>👑 Creator</div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {creator?.full_name || "—"}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {/* Stats grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                   {[
                     { label: "📅 Created", value: formatDateShort(activeTeam.created_at) },
                     { label: "👥 Members", value: members.length },
                     { label: "💬 Feedback", value: `${feedback.length} total` },
                     { label: "😊 Top Mood", value: getTopMood() },
                   ].map(({ label, value }) => (
-                    <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "12px 14px" }}>
-                      <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase" }}>{label}</div>
+                    <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
+                      <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase" }}>{label}</div>
                       <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)" }}>{value}</div>
                     </div>
                   ))}
                 </div>
 
+                {/* Transfer leadership UI */}
                 {showTransfer && (
-                  <div style={{ background: "var(--input-bg)", border: "1px solid #f39c1244", borderRadius: 10, padding: 14 }}>
+                  <div style={{ background: "var(--input-bg)", border: "1px solid #f39c1244", borderRadius: 10, padding: 12 }}>
                     <p style={{ fontSize: "13px", color: "#856404", marginBottom: 10 }}>
                       ⚠️ You are the team leader. Please transfer leadership before leaving.
                     </p>
@@ -841,8 +935,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   </div>
                 )}
 
-                <div style={{ flex: 1 }} />
-
+                {/* Leave button */}
                 {!showTransfer && (
                   <button onClick={handleLeaveTeam} disabled={leaveLoading} style={{
                     padding: "10px", borderRadius: 8, border: "1px solid #ffaaaa",
@@ -855,14 +948,31 @@ export default function Home({ user, navigate, navigateToSubmit }) {
               </div>
 
               {/* DIVIDER */}
-              <div style={{ width: isMobile ? "100%" : 1, height: isMobile ? 1 : "auto", background: "var(--border)", flexShrink: 0 }} />
+              <div style={{
+                width: isMobile ? "100%" : 1,
+                height: isMobile ? 1 : "auto",
+                background: "var(--border)",
+                flexShrink: 0,
+              }} />
 
-              {/* RIGHT — members */}
-              <div style={{ width: isMobile ? "100%" : 260, flexShrink: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+              {/* RIGHT COLUMN — Members list (no nested scroll on mobile) */}
+              <div style={{
+                width: isMobile ? "100%" : 260,
+                flexShrink: 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}>
                 <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  👥 Team Members <span style={{ fontWeight: 400 }}>(click to view)</span>
+                  👥 Team Members <span style={{ fontWeight: 400 }}>(tap to view)</span>
                 </div>
-                <div style={{ overflowY: "scroll", flex: 1, display: "flex", flexDirection: "column", gap: 24, paddingRight: 4, maxHeight: "calc(100vh - 420px)" }}>
+                {/* ── No inner scroll on mobile — the whole modal scrolls ── */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                  ...(isMobile ? {} : { overflowY: "auto", maxHeight: "calc(100vh - 420px)", paddingRight: 4 }),
+                }}>
                   {members.length === 0 ? (
                     <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>No members found.</p>
                   ) : members.map((m) => {
@@ -877,7 +987,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                           display: "flex", alignItems: "center", justifyContent: "space-between",
                           padding: "10px 12px", borderRadius: 8,
                           background: isYou ? "#6c5ce711" : "var(--input-bg)",
-                          cursor: "pointer", transition: "background 0.15s ease", flexShrink: 0
+                          cursor: "pointer", transition: "background 0.15s ease", flexShrink: 0,
                         }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
                           <div style={{
@@ -912,27 +1022,40 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         </div>
       )}
 
-      {/* MEMBER PROFILE MODAL */}
+      {/* ── MEMBER PROFILE MODAL ── */}
       {selectedMember && (
-        <div style={{
-          position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
-          display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2000
-        }}>
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) { setSelectedMember(null); setMemberProfile(null); setMemberStats(null); } }}
+          style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: isMobile ? "flex-end" : "center",
+            justifyContent: "center",
+            zIndex: 2000,
+          }}
+        >
           <div style={{
-            background: "var(--surface)", borderRadius: 16, width: "90%", maxWidth: 480,
-            padding: 28, display: "flex", flexDirection: "column", gap: 16, maxHeight: "85vh", overflowY: "auto"
+            background: "var(--surface)",
+            borderRadius: isMobile ? "16px 16px 0 0" : 16,
+            width: isMobile ? "100%" : "90%",
+            maxWidth: isMobile ? "100%" : 480,
+            padding: isMobile ? "16px 14px 28px" : 28,
+            display: "flex", flexDirection: "column", gap: 14,
+            maxHeight: isMobile ? "calc(100vh - 64px)" : "85vh",
+            overflowY: "auto",
+            boxSizing: "border-box",
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h3 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-main)" }}>Member Profile</h3>
+              <h3 style={{ margin: 0, fontSize: "1rem", color: "var(--text-main)" }}>Member Profile</h3>
               <button onClick={() => { setSelectedMember(null); setMemberProfile(null); setMemberStats(null); }}
                 style={{ background: "none", border: "none", fontSize: "1.3rem", cursor: "pointer", color: "var(--text-muted)" }}>✕</button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "16px 0" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "12px 0" }}>
               <div style={{
-                width: 72, height: 72, borderRadius: "50%",
+                width: 64, height: 64, borderRadius: "50%",
                 background: activeTeam.created_by === selectedMember.user_id ? "#f39c12" : "#6c5ce7",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                color: "white", fontSize: "1.8rem", fontWeight: 700, overflow: "hidden", flexShrink: 0
+                color: "white", fontSize: "1.6rem", fontWeight: 700, overflow: "hidden", flexShrink: 0
               }}>
                 {memberProfile?.avatar_url
                   ? <img src={memberProfile.avatar_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -940,26 +1063,26 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 }
               </div>
               <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--text-main)" }}>{memberProfile?.full_name || "Unknown"}</div>
+                <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-main)" }}>{memberProfile?.full_name || "Unknown"}</div>
                 {activeTeam.created_by === selectedMember.user_id && (
                   <span style={{ fontSize: "11px", padding: "2px 10px", borderRadius: 999, background: "#f39c1222", color: "#f39c12", fontWeight: 600 }}>👑 Team Leader</span>
                 )}
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
               {[
                 { label: "Student ID", value: memberProfile?.student_id || "—" },
                 { label: "Age", value: memberProfile?.age || "—" },
                 { label: "Date of Birth", value: memberProfile?.date_of_birth ? formatDateShort(memberProfile.date_of_birth) : "—" },
                 { label: "Phone Number", value: memberProfile?.phone_number || "—" },
               ].map(({ label, value }) => (
-                <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "12px 14px" }}>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase" }}>{label}</div>
+                <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
+                  <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase" }}>{label}</div>
                   <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)" }}>{value}</div>
                 </div>
               ))}
-              <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "12px 14px", gridColumn: "span 2" }}>
-                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase" }}>Member Since</div>
+              <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px", gridColumn: "span 2" }}>
+                <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase" }}>Member Since</div>
                 <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)" }}>{formatDateShort(selectedMember.joined_at)}</div>
               </div>
             </div>

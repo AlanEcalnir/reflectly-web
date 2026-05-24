@@ -270,10 +270,34 @@ export default function Register({ onRegister, onGoLogin }) {
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
-            {passwordErrors.length > 0 && (
-              <ul style={{ margin: "6px 0 0", paddingLeft: "18px", fontSize: "12px", color: "#e55" }}>
-                {passwordErrors.map((e, i) => <li key={i}>{e}</li>)}
-              </ul>
+            {form.password.length > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <div style={{ display: "flex", gap: 4 }}>
+                  {[
+                    { label: "8+ chars",   test: form.password.length >= 8 },
+                    { label: "Uppercase",  test: /[A-Z]/.test(form.password) },
+                    { label: "Lowercase",  test: /[a-z]/.test(form.password) },
+                    { label: "Number",     test: /[0-9]/.test(form.password) },
+                    { label: "Special",    test: /[^A-Za-z0-9]/.test(form.password) },
+                  ].map(({ label, test }) => (
+                    <div key={label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+                      <div style={{
+                        width: "100%", height: 4, borderRadius: 99,
+                        background: test ? "#3dba7e" : "var(--border, #e0e0e0)",
+                        transition: "background 0.25s ease",
+                      }} />
+                      <span style={{
+                        fontSize: "9px", textAlign: "center", lineHeight: 1.2,
+                        color: test ? "#3dba7e" : "var(--text-muted, #aaa)",
+                        fontWeight: test ? 600 : 400,
+                        transition: "color 0.25s ease",
+                      }}>
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 

@@ -64,6 +64,13 @@ export default function Navbar({ active, navigate, hideSubmit }) {
   return (
     <>
       <nav className="navbar">
+        {/* Floating orbs — navbar */}
+        <div className="orb" style={{width:120,height:120,background:'rgba(232,105,42,0.30)',top:-30,right:140,animation:'orbFloat1 9s ease-in-out infinite'}} />
+        <div className="orb" style={{width:100,height:100,background:'rgba(108,92,231,0.25)',top:-20,right:360,animation:'orbFloat2 12s ease-in-out infinite'}} />
+        <div className="orb" style={{width:90,height:90,background:'rgba(61,186,126,0.20)',top:-10,right:580,animation:'orbFloat3 10s ease-in-out infinite'}} />
+        <div className="orb" style={{width:80,height:80,background:'rgba(232,105,42,0.20)',top:-15,left:220,animation:'orbFloat4 14s ease-in-out infinite'}} />
+        <div className="orb" style={{width:70,height:70,background:'rgba(108,92,231,0.18)',top:-5,left:460,animation:'orbFloat1 11s ease-in-out infinite 2s'}} />
+
         {/* LOGO */}
         <div className="nav-logo" onClick={() => handleNav("home")}>
           <div className="logo-icon">✏️</div>
@@ -85,8 +92,6 @@ export default function Navbar({ active, navigate, hideSubmit }) {
 
         {/* MOBILE RIGHT SIDE — Submit button + Hamburger */}
         <div className="mobile-nav-right">
-
-
           {/* HAMBURGER */}
           <button
             className="hamburger"
@@ -107,6 +112,12 @@ export default function Navbar({ active, navigate, hideSubmit }) {
 
       {/* SIDE DRAWER */}
       <aside className={`side-drawer ${open ? "drawer-open" : ""}`}>
+        {/* Floating orbs — drawer */}
+        <div className="orb" style={{width:200,height:200,background:'rgba(232,105,42,0.25)',top:-80,right:-60,animation:'orbFloat2 10s ease-in-out infinite'}} />
+        <div className="orb" style={{width:160,height:160,background:'rgba(108,92,231,0.22)',bottom:-50,left:-50,animation:'orbFloat1 13s ease-in-out infinite'}} />
+        <div className="orb" style={{width:130,height:130,background:'rgba(61,186,126,0.18)',top:'40%',right:-40,animation:'orbFloat3 11s ease-in-out infinite 1s'}} />
+        <div className="orb" style={{width:100,height:100,background:'rgba(232,105,42,0.2)',bottom:'30%',left:-20,animation:'orbFloat4 9s ease-in-out infinite 3s'}} />
+
         <div className="drawer-header">
           <div className="nav-logo" style={{ color: "white" }} onClick={() => handleNav("home")}>
             <div className="logo-icon"></div>

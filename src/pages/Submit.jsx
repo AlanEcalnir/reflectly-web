@@ -22,6 +22,12 @@ export default function Submit({ user, defaultTeamId, navigate }) {
   const [error, setError]         = useState("");
   const [aiResult, setAiResult]   = useState(null);
   const [hateWarning, setHateWarning] = useState(false);
+  const [isMobile, setIsMobile]   = useState(window.innerWidth < 640);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
 
   useEffect(() => { fetchTeams(); }, []);
@@ -411,10 +417,12 @@ export default function Submit({ user, defaultTeamId, navigate }) {
 
       <div className="page-header">
   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-    <button onClick={() => navigate("home")} style={{
-      background: "none", border: "none", cursor: "pointer",
-      fontSize: "20px", color: "var(--text-main)", padding: 0, lineHeight: 1
-    }}>‹</button>
+    {isMobile && (
+      <button onClick={() => navigate("home")} style={{
+        background: "none", border: "none", cursor: "pointer",
+        fontSize: "20px", color: "var(--text-main)", padding: 0, lineHeight: 1
+      }}>‹</button>
+    )}
     <h2 style={{ margin: 0 }}>Submit Feedback</h2>
   </div>
   <p>How are you feeling about the team right now?</p>
