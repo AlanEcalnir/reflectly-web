@@ -129,11 +129,15 @@ const faqs = [
       },
       {
         q: "Can I be in multiple teams?",
-        a: "Yes! You can be part of as many teams as you want. On the Home page, you'll see a list of all your teams on the right side — just tap on any of them to switch and view that team."
+        a: "Yes! You can be part of as many teams as you want. On the Home page, you'll see a list of all your teams on the left side (or the team list screen on mobile) — just tap on any of them to switch and view that team."
       },
       {
         q: "What is 'skip for now' on the setup screen?",
         a: "When you first sign up, the app asks you to create or join a team. If you're not ready yet, you can tap 'skip for now' to go straight to the app. You can always create or join a team later from the Home page."
+      },
+      {
+        q: "How do I navigate on mobile?",
+        a: "On mobile, the Home page starts on the Team List screen. Tap any team to open its detail view. Use the back arrow (‹) at the top left to return to your team list. On the Submit page, the same back arrow takes you back to the Home page. To access other pages like Profile, Settings, and Help, tap the hamburger menu (☰) at the top right of the navbar to open the side drawer."
       },
     ]
   },
@@ -143,19 +147,31 @@ const faqs = [
     items: [
       {
         q: "How do I submit feedback?",
-        a: "Tap 'Submit' at the top of the screen. Pick an emoji that matches how you're feeling, write what's on your mind, choose which team you're sending it to, then tap the 'Submit Feedback' button. That's it!"
+        a: "Tap 'Submit' in the navbar (or use the '✏️ Submit Feedback' button in the team header on the Home page). Pick an emoji that matches how you're feeling, write what's on your mind, choose which team you're sending it to if you're in more than one, then tap 'Submit Feedback'. That's it!"
+      },
+      {
+        q: "What is the Quick Submit button on the Home page?",
+        a: "At the top of the team detail view on the Home page, there's a '✏️ Submit Feedback' button right in the team header. Tapping it takes you straight to the Submit page with that team already selected, so you don't have to navigate there manually."
       },
       {
         q: "How does the AI sentiment analysis work?",
-        a: "When you send your feedback, the app automatically reads your message and figures out if it sounds happy, sad, or somewhere in between. It then shows your team a score and a short summary so they can understand the general mood of everyone."
+        a: "When you send your feedback, the app first runs its own built-in analysis that understands English and Filipino words, slang, and even common typos. If that doesn't find a clear result, it falls back to a HuggingFace AI model for a deeper read. Either way, the result shows whether your message is positive, negative, or neutral — along with a score and an emotional tone label like 'motivated', 'frustrated', or 'content'."
       },
       {
         q: "What do the mood colors mean?",
-        a: "Green means positive or happy moods like Excited or Happy. Orange means harder moods like Stressed, Angry, or Tired. Gray means neutral — not too happy, not too sad. You'll see these colors in the chart on the Home page."
+        a: "Green means positive or happy moods like Excited or Happy. Orange means harder moods like Stressed, Angry, Tired, or Anxious. Gray means neutral — not too happy, not too sad. You'll see these colors in the chart and the feedback feed on the Home page."
       },
       {
         q: "Can I submit feedback anonymously?",
         a: "Yes! If you don't want your name to show, go to Settings and turn on 'Anonymous Mode'. After that, whenever you submit feedback, it will show 'Anonymous' instead of your name. Nobody will know it was you!"
+      },
+      {
+        q: "What happens if my message is flagged for inappropriate content?",
+        a: "Before submitting, the app scans your message for potentially harmful or toxic language. If something is detected, a yellow warning banner will appear asking you to consider rephrasing. You can either tap '✏️ Edit Message' to revise it, or tap 'Submit Anyway' to send it as-is. Messages submitted after a warning are flagged in the system and visible to your team leader for review."
+      },
+      {
+        q: "What does it mean when feedback is flagged?",
+        a: "If the AI detects very strong negative language in your message (even without the hate speech warning triggering), it may also flag the feedback automatically with a note that says '⚠️ This response has been flagged — someone may need support.' This is just a heads-up for team leaders to check in with that person."
       },
     ]
   },
@@ -165,23 +181,35 @@ const faqs = [
     items: [
       {
         q: "How do I find my team's invite code?",
-        a: "Go to the Home page and find your team on the right side. Click the 'Info' button next to your team name. A popup will appear showing your team's invite code at the top — you can tap 'Copy' to copy it and share it with your teammates."
+        a: "Go to the Home page and select your team. Tap the 'ⓘ Info' button in the team header. A panel will open showing your team's invite code at the top — tap 'Copy' to copy it and share it with your teammates."
+      },
+      {
+        q: "How do I set or change the team photo?",
+        a: "Open the team info panel by tapping 'ⓘ Info' on the Home page. At the top of the panel, tap the camera icon (📷) on the team avatar to upload a new photo. Only the team leader can upload or change the team photo. The photo must be an image file smaller than 2MB. To remove the photo and go back to the colored initial, tap 'Remove Photo' below the avatar."
       },
       {
         q: "How do I see who's in my team?",
-        a: "On the Home page, tap the 'Info' button beside your team. Scroll down in the popup and you'll see a list of all the members in your team, along with when they joined and if they're the team leader."
+        a: "On the Home page, tap the 'ⓘ Info' button beside your team. Scroll down in the panel and you'll see a list of all the members, along with when they joined and a 👑 crown icon for the team leader."
       },
       {
         q: "How do I view a member's profile?",
-        a: "Open the team info by tapping 'Info' next to your team on the Home page. Then tap on any member's name in the list. A small popup will show their profile — their name, student ID, age, and when they joined."
+        a: "Open the team info panel by tapping 'ⓘ Info' on the Home page. Then tap on any member's name in the list. A popup will appear showing their profile — including their name, student ID, age, date of birth, phone number, and when they joined."
       },
       {
         q: "What is 'Leave & Transfer Leadership'?",
-        a: "If you created the team, you are the leader. To leave the team, you first need to pass the leader role to someone else — that's what 'Leave & Transfer Leadership' does. If you're just a regular member, you'll see a simple 'Leave Team' button instead."
+        a: "If you created the team, you are the leader. To leave the team, you first need to pass the leader role to someone else — that's what 'Leave & Transfer Leadership' does. A list of other members will appear and you pick who to hand the crown to. If you're the only member left, leaving will disband the team entirely. If you're a regular member, you'll just see a plain 'Leave Team' button instead."
       },
       {
         q: "Can I change my team's name or color?",
-        a: "Currently, the team name, description, and color are set when the team is first created and cannot be changed afterward. Make sure to choose carefully when creating your team!"
+        a: "Currently, the team name, description, and color are set when the team is first created and cannot be changed afterward. You can however add or change the team photo at any time. Make sure to choose your name and color carefully when creating!"
+      },
+      {
+        q: "What are the unread badges on my team list?",
+        a: "When new feedback is submitted to a team while you're looking at a different team (or away from the app), a number badge will appear on that team in your list showing how many unread submissions there are. The badge clears automatically as soon as you tap into that team."
+      },
+      {
+        q: "How are teams sorted in my list?",
+        a: "Your teams are automatically sorted by the most recent feedback activity — whichever team had feedback submitted most recently appears at the top. If a team has never received any feedback, it falls back to sorting by when the team was created."
       },
     ]
   },
@@ -189,6 +217,10 @@ const faqs = [
     category: "Your Profile",
     icon: UserIcon,
     items: [
+      {
+        q: "How do I change my profile photo?",
+        a: "Go to your Profile page. Tap your profile picture (or the 📷 camera icon in the bottom-right corner of the avatar). A file picker will open — choose any image from your device. The photo must be under 2MB. Once uploaded, your new photo will show up everywhere in the app, including in the team member list."
+      },
       {
         q: "What is the Avg Sentiment score on my profile?",
         a: "The Avg Sentiment is a number that shows your overall mood based on all the feedback you've ever submitted. A positive number means your feedback has generally been happy or positive. A negative number means it's been more on the stressed or sad side. Zero means you're right in the middle!"
@@ -224,8 +256,8 @@ const faqs = [
         a: "Go to Settings and scroll down to the Account section. Tap the 'Sign Out' button. You'll be logged out and taken back to the login screen. Your account and data are saved — you can log back in anytime."
       },
       {
-        q: "What happens if I delete my account?",
-        a: "Deleting your account will permanently remove everything — your profile, all your submitted feedback, and your team memberships. This cannot be undone! If you just want to take a break, signing out is the safer option."
+        q: "How do I delete my account?",
+        a: "Go to Settings and scroll to the Account section. Tap the 'Delete' button next to 'Delete Account'. A confirmation popup will appear — you must type the word DELETE (in all caps) into the text box before the button becomes active. This extra step is there to make sure it's not an accident, because deleting your account is permanent and cannot be undone. All your profile data, submitted feedback, and team memberships will be removed."
       },
     ]
   },
@@ -235,7 +267,7 @@ const faqs = [
     items: [
       {
         q: "What does anonymous mode do exactly?",
-        a: "When anonymous mode is turned ON, your name is hidden from everything you submit. Your teammates will only see 'Anonymous' — not your name. You can turn it on or off anytime in Settings."
+        a: "When anonymous mode is turned ON, your name is hidden from everything you submit. Your teammates will only see 'Anonymous' — not your name or profile photo. You can turn it on or off anytime in Settings under Preferences."
       },
       {
         q: "Is my feedback private?",
@@ -243,11 +275,11 @@ const faqs = [
       },
       {
         q: "How do I change my password?",
-        a: "Go to Settings, then look for 'Change Password' under the Account section. Tap 'Send Link' and we'll send an email to your registered email address with a link to set a new password. Just check your inbox!"
+        a: "Go to Settings, then look for 'Change Password' under the Account section. Tap 'Send Link' and we'll send an email to your registered email address with a secure link to set a new password. Check your inbox (and spam folder just in case!) and follow the link."
       },
       {
         q: "How do I leave a team?",
-        a: "On the Home page, find the team you want to leave and tap the 'Info' button beside it. Scroll down and tap 'Leave Team'. Note: if you were the one who created the team, you'll need to pass the leader role to someone else before you can leave."
+        a: "On the Home page, select the team you want to leave and tap the 'ⓘ Info' button. Scroll down and tap 'Leave Team'. Note: if you were the one who created the team, you'll need to pass the leader role to someone else first before you can leave."
       },
     ]
   },
@@ -257,11 +289,19 @@ const faqs = [
     items: [
       {
         q: "What do I do if I forgot my password?",
-        a: "On the login screen, tap 'Forgot Password'. Enter your email address and we'll send you a link to reset your password. Check your inbox (and your spam folder just in case!) and follow the link to create a new password."
+        a: "On the login screen, tap 'Forgot password?'. A popup will appear asking for your email — enter it and tap 'Send Reset Link'. Check your inbox (and your spam folder just in case!) for a link from us. Clicking that link opens a page where you can set a brand new password. Your new password must meet the strength requirements shown on the page."
+      },
+      {
+        q: "Why do I need to confirm my email after registering?",
+        a: "After you create an account, Reflectly sends a confirmation email to the address you registered with. You need to click the link in that email to activate your account before you can log in. If you don't see it, check your spam folder. Once confirmed, just go back to the login page and sign in normally."
+      },
+      {
+        q: "What are the password requirements?",
+        a: "Your password must be at least 8 characters long and include: one uppercase letter, one lowercase letter, one number, and one special character (like ! @ # $). As you type your password during registration or reset, colored bars and labels will show you which requirements you've already met."
       },
       {
         q: "What do I do if I can't log in?",
-        a: "First, make sure your email and password are typed correctly — check for extra spaces or capital letters. If you still can't get in, tap 'Forgot Password' on the login screen to reset it. If the problem keeps happening, reach out to the developer for help."
+        a: "First, make sure your email and password are typed correctly — check for extra spaces or accidental caps lock. If you still can't get in, tap 'Forgot password?' on the login screen to reset it. If your email hasn't been confirmed yet, check your inbox for the confirmation link. If the problem keeps happening, reach out to the developer for help."
       },
       {
         q: "Can I use the app on any device?",

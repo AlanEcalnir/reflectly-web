@@ -189,10 +189,13 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
   const fetchSettings = useCallback(async () => {
     const { data } = await supabase
       .from("users")
-      .select("anonymous_mode")
+      .select("anonymous_mode, notifications_enabled")
       .eq("id", user.id)
       .single();
-    if (data) setAnonymous(data.anonymous_mode);
+    if (data) {
+      setAnonymous(data.anonymous_mode);
+      if (data.notifications_enabled != null) setNotifications(data.notifications_enabled);
+    }
     setSettingsLoaded(true);
   }, [user.id]);
 
@@ -216,11 +219,14 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
       setSaved("anonymous");
       setTimeout(() => setSaved(""), 2000);
     } else if (field === "notifications") {
-      setNotifications(!notifications);
+      const newValue = !notifications;
+      setNotifications(newValue);
       setSaving("notifications");
       setSaved("");
-      setTimeout(() => { setSaving(""); setSaved("notifications"); }, 500);
-      setTimeout(() => setSaved(""), 2500);
+      await supabase.from("users").update({ notifications_enabled: newValue }).eq("id", user.id);
+      setSaving("");
+      setSaved("notifications");
+      setTimeout(() => setSaved(""), 2000);
     }
   };
 
