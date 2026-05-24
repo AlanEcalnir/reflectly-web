@@ -200,8 +200,8 @@ const faqs = [
         a: "If you created the team, you are the leader. To leave the team, you first need to pass the leader role to someone else — that's what 'Leave & Transfer Leadership' does. A list of other members will appear and you pick who to hand the crown to. If you're the only member left, leaving will disband the team entirely. If you're a regular member, you'll just see a plain 'Leave Team' button instead."
       },
       {
-        q: "Can I change my team's name or color?",
-        a: "Currently, the team name, description, and color are set when the team is first created and cannot be changed afterward. You can however add or change the team photo at any time. Make sure to choose your name and color carefully when creating!"
+        q: "Can I change my team's name, description, or color?",
+        a: "Yes! Open the team info panel by tapping 'ⓘ Info' on the Home page, then tap the edit icon next to the team name. You can update the team name, description, and color right there. You can also add or change the team photo at any time."
       },
       {
         q: "What are the unread badges on my team list?",

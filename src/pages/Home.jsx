@@ -48,6 +48,14 @@ export default function Home({ user, navigate, navigateToSubmit }) {
   const [photoError, setPhotoError]         = useState("");
   const teamPhotoInputRef = useRef(null);
 
+  // u2500u2500 Team name / description inline edit u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500
+  const [editingInfo, setEditingInfo]   = useState(false);
+  const [editName, setEditName]         = useState("");
+  const [editDesc, setEditDesc]         = useState("");
+  const [editColor, setEditColor]       = useState("");
+  const [editSaving, setEditSaving]     = useState(false);
+  const [editError, setEditError]       = useState("");
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [screenH, setScreenH]   = useState(window.innerHeight);
   const [screenW, setScreenW]   = useState(window.innerWidth);
@@ -311,6 +319,22 @@ export default function Home({ user, navigate, navigateToSubmit }) {
     navigator.clipboard.writeText(activeTeam?.code || "");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSaveTeamInfo = async () => {
+    if (!editName.trim()) { setEditError("Team name cannot be empty."); return; }
+    setEditSaving(true);
+    setEditError("");
+    const { error } = await supabase
+      .from("teams")
+      .update({ name: editName.trim(), description: editDesc.trim(), color: editColor })
+      .eq("id", activeTeam.id);
+    if (error) { setEditError(error.message); setEditSaving(false); return; }
+    const updatedTeam = { ...activeTeam, name: editName.trim(), description: editDesc.trim(), color: editColor };
+    setActiveTeam(updatedTeam);
+    setTeams((prev) => prev.map((t) => t.id === activeTeam.id ? updatedTeam : t));
+    setEditSaving(false);
+    setEditingInfo(false);
   };
 
   const handleLeaveTeam = async () => {
@@ -845,22 +869,92 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   <input ref={teamPhotoInputRef} type="file" accept="image/*"
                     style={{ display: "none" }} onChange={handleTeamPhotoChange} />
                 </div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: "1rem", color: "var(--text-main)" }}>{activeTeam.name}</h3>
-                  {photoUploading && <div style={{ fontSize: "11px", color: "#6c5ce7", marginTop: 2 }}>Uploading...</div>}
-                  {photoError && <div style={{ fontSize: "11px", color: "#e8692a", marginTop: 2 }}>{photoError}</div>}
-                  {!photoUploading && !photoError && <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: 2 }}>Tap photo to change</div>}
-                  {activeTeam.photo_url && !photoUploading && (
-                    <button onClick={handleRemoveTeamPhoto} style={{
-                      marginTop: 4, fontSize: "11px", padding: "2px 8px", borderRadius: 6,
-                      border: "1px solid #ffaaaa", background: "transparent",
-                      color: "#e55", cursor: "pointer", fontWeight: 600
-                    }}>Remove photo</button>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  {editingInfo ? (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      <input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        placeholder="Team name"
+                        style={{
+                          fontSize: "14px", fontWeight: 700, padding: "5px 8px",
+                          borderRadius: 6, border: "1px solid #6c5ce7",
+                          background: "var(--input-bg)", color: "var(--text-main)",
+                          width: "100%", boxSizing: "border-box",
+                        }}
+                      />
+                      <input
+                        value={editDesc}
+                        onChange={(e) => setEditDesc(e.target.value)}
+                        placeholder="Description (optional)"
+                        style={{
+                          fontSize: "12px", padding: "5px 8px",
+                          borderRadius: 6, border: "1px solid var(--border)",
+                          background: "var(--input-bg)", color: "var(--text-main)",
+                          width: "100%", boxSizing: "border-box",
+                        }}
+                      />
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>Color</span>
+                        {["#1e2140","#e8692a","#1e7d6b","#e84040","#3a6fd8"].map((c) => (
+                          <div
+                            key={c}
+                            onClick={() => setEditColor(c)}
+                            style={{
+                              width: 22, height: 22, borderRadius: "50%", background: c,
+                              cursor: "pointer", flexShrink: 0,
+                              outline: editColor === c ? `3px solid ${c}` : "3px solid transparent",
+                              outlineOffset: 2,
+                              transition: "outline 0.15s ease",
+                            }}
+                          />
+                        ))}
+                      </div>
+                      {editError && <div style={{ fontSize: "11px", color: "#e55" }}>{editError}</div>}
+                      <div style={{ display: "flex", gap: 6 }}>
+                        <button onClick={handleSaveTeamInfo} disabled={editSaving} style={{
+                          flex: 1, fontSize: "11px", padding: "4px 0", borderRadius: 6,
+                          border: "none", background: "#6c5ce7", color: "white",
+                          cursor: editSaving ? "not-allowed" : "pointer", fontWeight: 600,
+                        }}>{editSaving ? "Saving..." : "Save"}</button>
+                        <button onClick={() => { setEditingInfo(false); setEditError(""); }} style={{
+                          flex: 1, fontSize: "11px", padding: "4px 0", borderRadius: 6,
+                          border: "1px solid var(--border)", background: "transparent",
+                          color: "var(--text-muted)", cursor: "pointer",
+                        }}>Cancel</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <div>
+                        <h3 style={{ margin: 0, fontSize: "1rem", color: "var(--text-main)" }}>{activeTeam.name}</h3>
+                        {photoUploading && <div style={{ fontSize: "11px", color: "#6c5ce7", marginTop: 2 }}>Uploading...</div>}
+                        {photoError && <div style={{ fontSize: "11px", color: "#e8692a", marginTop: 2 }}>{photoError}</div>}
+                        {!photoUploading && !photoError && <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: 2 }}>Tap photo to change</div>}
+                        {activeTeam.photo_url && !photoUploading && (
+                          <button onClick={handleRemoveTeamPhoto} style={{
+                            marginTop: 4, fontSize: "11px", padding: "2px 8px", borderRadius: 6,
+                            border: "1px solid #ffaaaa", background: "transparent",
+                            color: "#e55", cursor: "pointer", fontWeight: 600
+                          }}>Remove photo</button>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => { setEditName(activeTeam.name); setEditDesc(activeTeam.description || ""); setEditColor(activeTeam.color || "#1e2140"); setEditingInfo(true); setEditError(""); }}
+                        title="Edit team name and description"
+                        style={{
+                          background: "none", border: "1px solid var(--border)",
+                          borderRadius: 6, cursor: "pointer", padding: "3px 7px",
+                          color: "var(--text-muted)", fontSize: "13px", flexShrink: 0,
+                          lineHeight: 1,
+                        }}
+                      ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                    </div>
                   )}
                 </div>
               </div>
               <button
-                onClick={() => { setShowPanel(false); setShowTransfer(false); setPhotoError(""); }}
+                onClick={() => { setShowPanel(false); setShowTransfer(false); setPhotoError(""); setEditingInfo(false); setEditError(""); }}
                 style={{ background: "none", border: "none", fontSize: "1.3rem", cursor: "pointer", color: "var(--text-muted)", flexShrink: 0 }}
               >✕</button>
             </div>
