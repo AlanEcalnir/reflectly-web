@@ -21,6 +21,85 @@ const TeamAvatar = ({ team, size = 44, fontSize = "16px" }) => {
   );
 };
 
+// ── SVG Icon Components ──────────────────────────────────────────────────────
+const KeyIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <circle cx="7.5" cy="15.5" r="5.5"/>
+    <path d="M21 2l-9.6 9.6"/>
+    <path d="M15.5 7.5l3 3L22 7l-3-3"/>
+  </svg>
+);
+
+const CrownIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/>
+    <path d="M5 20h14"/>
+  </svg>
+);
+
+const CalendarIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+    <line x1="16" y1="2" x2="16" y2="6"/>
+    <line x1="8" y1="2" x2="8" y2="6"/>
+    <line x1="3" y1="10" x2="21" y2="10"/>
+  </svg>
+);
+
+const UsersIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+);
+
+const MessageIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+);
+
+const SmileIcon = ({ size = 12, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+    <line x1="9" y1="9" x2="9.01" y2="9"/>
+    <line x1="15" y1="9" x2="15.01" y2="9"/>
+  </svg>
+);
+
+const CameraIcon = ({ size = 9 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+    <circle cx="12" cy="13" r="4"/>
+  </svg>
+);
+
+const PenIcon = ({ size = 13 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+  </svg>
+);
+
+const AlertIcon = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#856404" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+    <line x1="12" y1="9" x2="12" y2="13"/>
+    <line x1="12" y1="17" x2="12.01" y2="17"/>
+  </svg>
+);
+
+const LogOutIcon = ({ size = 13 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+    <polyline points="16 17 21 12 16 7"/>
+    <line x1="21" y1="12" x2="9" y2="12"/>
+  </svg>
+);
+
 export default function Home({ user, navigate, navigateToSubmit }) {
   const [teams, setTeams]               = useState([]);
   const [activeTeam, setActiveTeam]     = useState(null);
@@ -48,7 +127,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
   const [photoError, setPhotoError]         = useState("");
   const teamPhotoInputRef = useRef(null);
 
-  // u2500u2500 Team name / description inline edit u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500u2500
+  // ── Team name / description inline edit ──────────────────────────
   const [editingInfo, setEditingInfo]   = useState(false);
   const [editName, setEditName]         = useState("");
   const [editDesc, setEditDesc]         = useState("");
@@ -434,17 +513,13 @@ export default function Home({ user, navigate, navigateToSubmit }) {
   const otherMembers = members.filter((m) => m.user_id !== user.id);
 
   // ── Responsive sizing derived from real screen dimensions ──
-  // Only applied on mobile; desktop layout is unchanged
-  const maxBarHeight    = screenH * 0.09;           // ~60px on SE (667px), ~84px on Pro Max (932px)
-  const chartContainerH = maxBarHeight + 44;         // bars + day label + score label + gaps
+  const maxBarHeight    = screenH * 0.09;
+  const chartContainerH = maxBarHeight + 44;
   const bodyPadding     = screenH < 700 ? 10 : 16;
   const cardGap         = screenH < 700 ? 8 : 12;
-  // detailHeaderH: the team detail top bar (back btn + avatar + name + buttons + border)
   const detailHeaderH   = screenH < 700 ? 58 : 68;
-  // sentimentCardH: card padding top+bottom + title row + marginTop + chartContainer
   const sentimentCardPad = screenH < 700 ? 10 : 12;
   const sentimentCardH  = sentimentCardPad * 2 + 28 + 14 + chartContainerH;
-  // feedCardH: whatever is left after everything else
   const feedCardH       = screenH - 64 - detailHeaderH - bodyPadding * 2 - cardGap - sentimentCardH;
   const dayFontSize     = screenW < 390 ? "9px" : "10px";
   const scoreFontSize   = screenW < 390 ? "8px" : "9px";
@@ -513,7 +588,6 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "var(--input-bg)"; }}
                 onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
               >
-                {/* Avatar with small dot indicator on mobile */}
                 <div style={{ position: "relative", flexShrink: 0 }}>
                   <TeamAvatar team={t} size={44} fontSize="16px" />
                   {unread > 0 && isMobile && (
@@ -547,7 +621,6 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   ) : null}
                 </div>
 
-                {/* Unread count badge on desktop, chevron on mobile */}
                 {isMobile
                   ? <span style={{ color: "var(--text-muted)", fontSize: "18px" }}>›</span>
                   : unread > 0
@@ -601,20 +674,21 @@ export default function Home({ user, navigate, navigateToSubmit }) {
           )}
         </div>
 
-        {/* QUICK SUBMIT BUTTON — pre-selects this team */}
+        {/* QUICK SUBMIT BUTTON */}
         <button
           onClick={() => navigateToSubmit(activeTeam.id)}
           style={{
             fontSize: screenW < 390 ? "12px" : "13px",
             padding: screenW < 390 ? "6px 10px" : "8px 14px",
             borderRadius: 8,
-            display: "flex", alignItems: "center", gap: 5,
+            display: "flex", alignItems: "center", gap: 6,
             border: "none", background: "#f39c12",
             cursor: "pointer", color: "white",
             fontWeight: 600, boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
             whiteSpace: "nowrap", flexShrink: 0,
           }}>
-          ✍️ Submit
+          <PenIcon size={13} />
+          Submit
         </button>
 
         {/* INFO BUTTON */}
@@ -721,7 +795,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
           {feedLoading ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p>
           : feedback.length === 0 ? (
             <div style={{ textAlign: "center", padding: "2rem 0", color: "var(--text-muted)" }}>
-              <div style={{ fontSize: "2rem", marginBottom: 8 }}>💬</div>
+              <div style={{ marginBottom: 8 }}>
+  <MessageIcon size={32} color="var(--text-muted)" />
+</div>
               <p style={{ fontSize: "14px" }}>No feedback yet for this team.</p>
               <button className="btn btn-primary"
                 style={{ marginTop: 12, fontSize: "13px", padding: "8px 16px" }}
@@ -829,7 +905,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 10 : 16,
-            maxHeight: isMobile ? "calc(100vh - 64px)" : "90vh",
+            maxHeight: isMobile ? "calc(100dvh - 64px)" : "90vh",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
@@ -858,13 +934,16 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                       ? <img src={activeTeam.photo_url.split("?")[0]} alt="Team" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       : activeTeam.name?.[0]?.toUpperCase()
                     }
+                    {/* Camera overlay badge */}
                     <div style={{
                       position: "absolute", bottom: 0, right: 0,
                       width: 18, height: 18, borderRadius: "50%",
                       background: "#6c5ce7", border: "2px solid var(--surface, #fff)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: "9px", pointerEvents: "none",
-                    }}>📷</div>
+                      pointerEvents: "none",
+                    }}>
+                      <CameraIcon size={9} />
+                    </div>
                   </div>
                   <input ref={teamPhotoInputRef} type="file" accept="image/*"
                     style={{ display: "none" }} onChange={handleTeamPhotoChange} />
@@ -959,7 +1038,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
               >✕</button>
             </div>
 
-            {/* ── MODAL BODY: stacks vertically on mobile, side-by-side on desktop ── */}
+            {/* ── MODAL BODY ── */}
             <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 10 : 16 }}>
 
               {/* LEFT COLUMN */}
@@ -968,7 +1047,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 {/* Invite code + Creator */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                   <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
-                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px" }}>🔑 Invite Code</div>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 4 }}>
+                      <KeyIcon size={10} /> Invite Code
+                    </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
                       <span style={{ fontFamily: "monospace", fontSize: "1rem", fontWeight: 700, letterSpacing: 3, color: "var(--text-main)" }}>
                         {activeTeam.code}
@@ -981,7 +1062,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                     </div>
                   </div>
                   <div style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
-                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px" }}>👑 Creator</div>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 4 }}>
+                      <CrownIcon size={10} color="#f39c12" /> Creator
+                    </div>
                     <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {creator?.full_name || "—"}
                     </div>
@@ -991,13 +1074,15 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 {/* Stats grid */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                   {[
-                    { label: "📅 Created", value: formatDateShort(activeTeam.created_at) },
-                    { label: "👥 Members", value: members.length },
-                    { label: "💬 Feedback", value: `${feedback.length} total` },
-                    { label: "😊 Top Mood", value: getTopMood() },
-                  ].map(({ label, value }) => (
+                    { icon: <CalendarIcon size={10} />, label: "Created",  value: formatDateShort(activeTeam.created_at) },
+                    { icon: <UsersIcon size={10} />,    label: "Members",  value: members.length },
+                    { icon: <MessageIcon size={10} />,  label: "Feedback", value: `${feedback.length} total` },
+                    { icon: <SmileIcon size={10} />,    label: "Top Mood", value: getTopMood() },
+                  ].map(({ icon, label, value }) => (
                     <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
-                      <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase" }}>{label}</div>
+                      <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4 }}>
+                        {icon}{label}
+                      </div>
                       <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)" }}>{value}</div>
                     </div>
                   ))}
@@ -1006,8 +1091,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 {/* Transfer leadership UI */}
                 {showTransfer && (
                   <div style={{ background: "var(--input-bg)", border: "1px solid #f39c1244", borderRadius: 10, padding: 12 }}>
-                    <p style={{ fontSize: "13px", color: "#856404", marginBottom: 10 }}>
-                      ⚠️ You are the team leader. Please transfer leadership before leaving.
+                    <p style={{ fontSize: "13px", color: "#856404", marginBottom: 10, display: "flex", alignItems: "flex-start", gap: 6 }}>
+                      <AlertIcon size={14} />
+                      You are the team leader. Please transfer leadership before leaving.
                     </p>
                     <select value={transferTo} onChange={(e) => setTransferTo(e.target.value)}
                       style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: "1px solid var(--border)", fontSize: "13px", marginBottom: 10, background: "var(--surface)", color: "var(--text-main)" }}>
@@ -1034,9 +1120,15 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                   <button onClick={handleLeaveTeam} disabled={leaveLoading} style={{
                     padding: "10px", borderRadius: 8, border: "1px solid #ffaaaa",
                     background: "var(--input-bg)", color: "#e55", cursor: "pointer",
-                    fontSize: "13px", fontWeight: 600, width: "100%"
+                    fontSize: "13px", fontWeight: 600, width: "100%",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}>
-                    {leaveLoading ? "Leaving..." : isCreator ? "👑 Leave & Transfer Leadership" : "Leave Team"}
+                    {leaveLoading ? "Leaving..." : (
+                      <>
+                        {isCreator ? <CrownIcon size={13} color="#e55" /> : <LogOutIcon size={13} />}
+                        {isCreator ? "Leave & Transfer Leadership" : "Leave Team"}
+                      </>
+                    )}
                   </button>
                 )}
               </div>
@@ -1049,7 +1141,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 flexShrink: 0,
               }} />
 
-              {/* RIGHT COLUMN — Members list (no nested scroll on mobile) */}
+              {/* RIGHT COLUMN — Members list */}
               <div style={{
                 width: isMobile ? "100%" : 260,
                 flexShrink: 0,
@@ -1057,10 +1149,9 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                 flexDirection: "column",
                 gap: 8,
               }}>
-                <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  👥 Team Members <span style={{ fontWeight: 400 }}>(tap to view)</span>
+                <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 4 }}>
+                  <UsersIcon size={11} /> Team Members <span style={{ fontWeight: 400 }}>(tap to view)</span>
                 </div>
-                {/* ── No inner scroll on mobile — the whole modal scrolls ── */}
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
@@ -1104,7 +1195,13 @@ export default function Home({ user, navigate, navigateToSubmit }) {
                           </div>
                         </div>
                         {isOwner && (
-                          <span style={{ fontSize: "10px", padding: "2px 6px", borderRadius: 999, background: "#f39c1222", color: "#f39c12", fontWeight: 600, flexShrink: 0 }}>👑</span>
+                          <span style={{
+                            display: "flex", alignItems: "center", gap: 3,
+                            fontSize: "10px", padding: "2px 7px", borderRadius: 999,
+                            background: "#f39c1222", color: "#f39c12", fontWeight: 600, flexShrink: 0
+                          }}>
+                            <CrownIcon size={9} color="#f39c12" />
+                          </span>
                         )}
                       </div>
                     );
@@ -1135,7 +1232,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             maxWidth: isMobile ? "100%" : 480,
             padding: isMobile ? "16px 14px 28px" : 28,
             display: "flex", flexDirection: "column", gap: 14,
-            maxHeight: isMobile ? "calc(100vh - 64px)" : "85vh",
+            maxHeight: isMobile ? "calc(100dvh - 64px)" : "85vh",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
@@ -1159,16 +1256,22 @@ export default function Home({ user, navigate, navigateToSubmit }) {
               <div style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-main)" }}>{memberProfile?.full_name || "Unknown"}</div>
                 {activeTeam.created_by === selectedMember.user_id && (
-                  <span style={{ fontSize: "11px", padding: "2px 10px", borderRadius: 999, background: "#f39c1222", color: "#f39c12", fontWeight: 600 }}>👑 Team Leader</span>
+                  <span style={{
+                    display: "inline-flex", alignItems: "center", gap: 4,
+                    fontSize: "11px", padding: "2px 10px", borderRadius: 999,
+                    background: "#f39c1222", color: "#f39c12", fontWeight: 600
+                  }}>
+                    <CrownIcon size={10} color="#f39c12" /> Team Leader
+                  </span>
                 )}
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
               {[
-                { label: "Student ID", value: memberProfile?.student_id || "—" },
-                { label: "Age", value: memberProfile?.age || "—" },
+                { label: "Student ID",    value: memberProfile?.student_id || "—" },
+                { label: "Age",           value: memberProfile?.age || "—" },
                 { label: "Date of Birth", value: memberProfile?.date_of_birth ? formatDateShort(memberProfile.date_of_birth) : "—" },
-                { label: "Phone Number", value: memberProfile?.phone_number || "—" },
+                { label: "Phone Number",  value: memberProfile?.phone_number || "—" },
               ].map(({ label, value }) => (
                 <div key={label} style={{ background: "var(--input-bg)", borderRadius: 10, padding: "10px 12px" }}>
                   <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: 3, textTransform: "uppercase" }}>{label}</div>
