@@ -883,18 +883,16 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         <div
           onClick={(e) => { if (e.target === e.currentTarget) { setShowPanel(false); setShowTransfer(false); setPhotoError(""); } }}
           style={{
-            position: "fixed",
-            top: isMobile ? 64 : 0,
-            left: 0, right: 0, bottom: 0,
-            background: "rgba(0,0,0,0.45)",
-            display: "flex",
-            alignItems: isMobile ? "flex-end" : "flex-start",
-            justifyContent: "center",
-            zIndex: 1000,
-            overflowY: isMobile ? "hidden" : "auto",
-            paddingTop: isMobile ? 0 : 80,
-            paddingBottom: isMobile ? 0 : 24,
-          }}
+  position: "fixed",
+  top: 0,
+  left: 0, right: 0, bottom: 0,
+  background: "rgba(0,0,0,0.45)",
+  display: "flex",
+  alignItems: "flex-end",
+  justifyContent: "center",
+  zIndex: 1000,
+  overflowY: "hidden",
+}}
         >
           <div style={{
             background: "var(--surface)",
@@ -905,7 +903,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 10 : 16,
-            maxHeight: isMobile ? "calc(100dvh - 64px)" : "90vh",
+maxHeight: "calc(100dvh - 64px)",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
