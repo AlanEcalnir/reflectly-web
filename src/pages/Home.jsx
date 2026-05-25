@@ -903,7 +903,7 @@ paddingBottom: 24,
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 10 : 16,
-            maxHeight: "none",
+            maxHeight: isMobile ? "none" : "85vh",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
@@ -1216,15 +1216,15 @@ paddingBottom: 24,
         <div
           onClick={(e) => { if (e.target === e.currentTarget) { setSelectedMember(null); setMemberProfile(null); setMemberStats(null); } }}
           style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
-display: "flex",
-alignItems: isMobile ? "flex-start" : "center",
-justifyContent: "center",
-zIndex: 2000,
-overflowY: "auto",
-paddingTop: isMobile ? 64 : 0,
-paddingBottom: isMobile ? 24 : 0,
-          }}
+  position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  zIndex: 2000,
+  overflowY: "auto",
+  paddingTop: isMobile ? 64 : 80,
+  paddingBottom: 24,
+}}
         >
           <div style={{
             background: "var(--surface)",
