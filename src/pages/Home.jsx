@@ -903,7 +903,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 10 : 16,
-maxHeight: "calc(100dvh - 64px)",
+            maxHeight: screenH - 64,
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
