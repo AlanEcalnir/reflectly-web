@@ -425,7 +425,7 @@ export default function Settings({ user, onLogout, darkMode, setDarkMode }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
               ["App", "Reflectly"],
-              ["Version", "2.0.0"],
+              ["Version", "1.1.1"],
               ["Target Users", "GC CCS Students"],
               ["Purpose", "Team Sentiment Tracking"],
             ].map(([label, value]) => (

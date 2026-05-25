@@ -795,9 +795,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
           {feedLoading ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p>
           : feedback.length === 0 ? (
             <div style={{ textAlign: "center", padding: "2rem 0", color: "var(--text-muted)" }}>
-              <div style={{ marginBottom: 8 }}>
-  <MessageIcon size={32} color="var(--text-muted)" />
-</div>
+              <div style={{ fontSize: "2rem", marginBottom: 8 }}>💬</div>
               <p style={{ fontSize: "14px" }}>No feedback yet for this team.</p>
               <button className="btn btn-primary"
                 style={{ marginTop: 12, fontSize: "13px", padding: "8px 16px" }}
@@ -883,16 +881,18 @@ export default function Home({ user, navigate, navigateToSubmit }) {
         <div
           onClick={(e) => { if (e.target === e.currentTarget) { setShowPanel(false); setShowTransfer(false); setPhotoError(""); } }}
           style={{
-  position: "fixed",
-  top: 0,
-  left: 0, right: 0, bottom: 0,
-  background: "rgba(0,0,0,0.45)",
-  display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "center",
-  zIndex: 1000,
-  overflowY: "hidden",
-}}
+            position: "fixed",
+top: 0,
+left: 0, right: 0, bottom: 0,
+background: "rgba(0,0,0,0.45)",
+display: "flex",
+alignItems: isMobile ? "flex-start" : "flex-start",
+justifyContent: "center",
+zIndex: 1000,
+overflowY: "auto",
+paddingTop: isMobile ? 64 : 80,
+paddingBottom: 24,
+          }}
         >
           <div style={{
             background: "var(--surface)",
@@ -903,7 +903,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 10 : 16,
-            maxHeight: screenH - 64,
+            maxHeight: "none",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
@@ -1230,7 +1230,7 @@ export default function Home({ user, navigate, navigateToSubmit }) {
             maxWidth: isMobile ? "100%" : 480,
             padding: isMobile ? "16px 14px 28px" : 28,
             display: "flex", flexDirection: "column", gap: 14,
-            maxHeight: isMobile ? "calc(100dvh - 64px)" : "85vh",
+            maxHeight: isMobile ? "calc(100vh - 64px)" : "85vh",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
