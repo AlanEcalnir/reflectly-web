@@ -1217,10 +1217,13 @@ paddingBottom: 24,
           onClick={(e) => { if (e.target === e.currentTarget) { setSelectedMember(null); setMemberProfile(null); setMemberStats(null); } }}
           style={{
             position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: isMobile ? "flex-end" : "center",
-            justifyContent: "center",
-            zIndex: 2000,
+display: "flex",
+alignItems: isMobile ? "flex-start" : "center",
+justifyContent: "center",
+zIndex: 2000,
+overflowY: "auto",
+paddingTop: isMobile ? 64 : 0,
+paddingBottom: isMobile ? 24 : 0,
           }}
         >
           <div style={{
@@ -1230,7 +1233,7 @@ paddingBottom: 24,
             maxWidth: isMobile ? "100%" : 480,
             padding: isMobile ? "16px 14px 28px" : 28,
             display: "flex", flexDirection: "column", gap: 14,
-            maxHeight: isMobile ? "calc(100vh - 64px)" : "85vh",
+            maxHeight: "none",
             overflowY: "auto",
             boxSizing: "border-box",
           }}>
